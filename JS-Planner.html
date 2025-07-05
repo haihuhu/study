@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>淡淡的学习计划</title>
+  <title>淡淡的学习计划A</title>
   <script src="./av-min.js"></script>
   <script>
     // LeanCloud 初始化
@@ -90,6 +90,8 @@
     function showAuth(show) {
       document.getElementById('auth-container').style.display = show ? '' : 'none';
       document.getElementById('main-content').style.display = show ? 'none' : '';
+      // 登录后显示标签栏，未登录隐藏
+      document.getElementById('tab-bar').style.display = show ? 'none' : '';
     }
     function showMsg(msg) {
       document.getElementById('auth-msg').innerText = msg;
@@ -308,12 +310,9 @@
       style="padding:6px 18px;font-size:15px;background:#2d6cdf;color:#fff;border:none;border-radius:4px;cursor:pointer;">退出登录</button>
   </div>
   <div id="tab-bar" style="display:flex;gap:8px;justify-content:center;margin:24px 0 0 0;">
-    <button class="tab-btn active" data-tab="htmlcss"
-      style="padding:8px 24px;font-size:16px;border:none;border-bottom:3px solid #2d6cdf;background:#f0f6ff;color:#2d6cdf;cursor:pointer;border-radius:8px 8px 0 0;">HTML+CSS</button>
-    <button class="tab-btn" data-tab="js"
-      style="padding:8px 24px;font-size:16px;border:none;border-bottom:3px solid transparent;background:#f0f6ff;color:#2d6cdf;cursor:pointer;border-radius:8px 8px 0 0;">JS第二阶段</button>
-    <button class="tab-btn" data-tab="react"
-      style="padding:8px 24px;font-size:16px;border:none;border-bottom:3px solid transparent;background:#f0f6ff;color:#2d6cdf;cursor:pointer;border-radius:8px 8px 0 0;">React</button>
+    <button class="tab-btn" data-tab="htmlcss">HTML+CSS</button>
+    <button class="tab-btn active" data-tab="js">JS第二阶段</button>
+    <button class="tab-btn" data-tab="react">React</button>
     <button class="tab-btn" data-tab="next"
       style="padding:8px 24px;font-size:16px;border:none;border-bottom:3px solid transparent;background:#f0f6ff;color:#2d6cdf;cursor:pointer;border-radius:8px 8px 0 0;">Next.js</button>
     <button class="tab-btn" data-tab="python"
@@ -337,11 +336,11 @@
     <div id="auth-msg" style="color:#e74c3c;text-align:center;margin-top:10px;font-size:14px;"></div>
   </div>
   <div id="main-content" style="display:none;position:relative;">
-    <div id="tab-content-htmlcss" class="tab-content" style="display:block;">
+    <div id="tab-content-htmlcss" class="tab-content" style="display:none;">
       <h1>HTML+CSS学习计划</h1>
       <!-- 你可以在这里补充HTML+CSS学习计划表格或内容 -->
     </div>
-    <div id="tab-content-js" class="tab-content" style="display:none;">
+    <div id="tab-content-js" class="tab-content" style="display:block;">
       <h1>JS第二阶段学习计划</h1>
       <!-- Day1 -->
       <h2>Day1</h2>
