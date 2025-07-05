@@ -66,14 +66,21 @@
 
     // 页面加载后设置可编辑和事件
     document.addEventListener('DOMContentLoaded', function () {
-      // 使所有 input-cell 可编辑
       document.querySelectorAll('.input-cell').forEach(cell => {
         cell.setAttribute('contenteditable', 'true');
+        // 粘贴时只保留纯文本
+        cell.addEventListener('paste', function (e) {
+          e.preventDefault();
+          const text = (e.clipboardData || window.clipboardData).getData('text');
+          document.execCommand('insertText', false, text);
+        });
         cell.addEventListener('blur', function () {
+          // 只保留纯文本
+          cell.innerText = cell.innerText.trim();
           const day = cell.getAttribute('data-day');
           const row = cell.getAttribute('data-row');
           const col = cell.getAttribute('data-col');
-          saveCell(day, row, col, cell.innerText.trim());
+          saveCell(day, row, col, cell.innerText);
         });
       });
       loadAllCells();
@@ -190,7 +197,19 @@
     }
 
     .input-cell {
+      font-size: 16px !important;
+      font-family: inherit !important;
+      color: #333 !important;
+      font-weight: normal !important;
       background: #fffbe6;
+    }
+
+    .input-cell * {
+      all: unset !important;
+      font-size: inherit !important;
+      font-family: inherit !important;
+      color: inherit !important;
+      font-weight: inherit !important;
     }
 
     .case-row {
@@ -1086,15 +1105,16 @@
     <div id="tab-content-react" class="tab-content" style="display:none;">
       <h1>React学习计划</h1>
       <!-- 可复制JS表格结构，内容可先留空或简单示例 -->
-      ...
+      <h2>计划中</h2>
+
     </div>
     <div id="tab-content-next" class="tab-content" style="display:none;">
       <h1>Next.js学习计划</h1>
-      ...
+      <h2>计划中</h2>
     </div>
     <div id="tab-content-python" class="tab-content" style="display:none;">
       <h1>Python学习计划</h1>
-      ...
+      <h2>计划中</h2>
     </div>
   </div>
   <script>
