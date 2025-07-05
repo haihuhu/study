@@ -242,10 +242,30 @@
     #auth-container #register-btn {
       margin-top: 10px;
     }
+
+    td:nth-child(1) {
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    td:nth-child(2),
+    td:nth-child(3) {
+      text-align: center;
+    }
+
+    td:nth-child(4) {
+      text-align: left;
+    }
   </style>
 </head>
 
 <body>
+  <div id="top-bar"
+    style="width:100%;background:#f0f6ff;padding:10px 0 10px 0;box-shadow:0 2px 8px #0001;display:flex;justify-content:flex-end;align-items:center;gap:16px;position:sticky;top:0;z-index:10;">
+    <span id="current-user" style="color:#2d6cdf;font-size:15px;"></span>
+    <button id="logout-btn"
+      style="padding:6px 18px;font-size:15px;background:#2d6cdf;color:#fff;border:none;border-radius:4px;cursor:pointer;">退出登录</button>
+  </div>
   <h1>JS第二阶段学习计划</h1>
   <div id="auth-container"
     style="max-width:340px;margin:40px auto 0 auto;padding:24px 24px 18px 24px;background:#fff;box-shadow:0 2px 8px #0001;border-radius:8px;display:none;">
@@ -265,964 +285,771 @@
     <div id="auth-msg" style="color:#e74c3c;text-align:center;margin-top:10px;font-size:14px;"></div>
   </div>
   <div id="main-content" style="display:none;position:relative;">
-    <div style="position:absolute;right:120px;top:14px;font-size:14px;color:#2d6cdf;" id="current-user"></div>
-    <button id="logout-btn"
-      style="position:absolute;right:10px;top:10px;padding:6px 16px;font-size:14px;background:#fff;color:#2d6cdf;border:1px solid #2d6cdf;border-radius:4px;cursor:pointer;">退出登录</button>
     <!-- Day1 -->
     <h2>Day1</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="study-row">
-        <td>1</td>
-        <td>web APIs阶段课程安排</td>
-        <td>05:53</td>
-        <td class="input-cell" data-day="1" data-row="1" data-col="1" data-key="day1-row1-col1"></td>
-        <td class="input-cell" data-day="1" data-row="1" data-col="2" data-key="day1-row1-col2"></td>
-        <td class="input-cell" data-day="1" data-row="1" data-col="3" data-key="day1-row1-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>2</td>
-        <td>声明变量const优先</td>
-        <td>17:02</td>
-        <td class="input-cell" data-day="1" data-row="2" data-col="1" data-key="day1-row2-col1"></td>
-        <td class="input-cell" data-day="1" data-row="2" data-col="2" data-key="day1-row2-col2"></td>
-        <td class="input-cell" data-day="1" data-row="2" data-col="3" data-key="day1-row2-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>3</td>
-        <td>DOM树和DOM对象</td>
-        <td>16:40</td>
-        <td class="input-cell" data-day="1" data-row="3" data-col="1" data-key="day1-row3-col1"></td>
-        <td class="input-cell" data-day="1" data-row="3" data-col="2" data-key="day1-row3-col2"></td>
-        <td class="input-cell" data-day="1" data-row="3" data-col="3" data-key="day1-row3-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>4</td>
-        <td>获取DOM元素</td>
-        <td>05:40</td>
-        <td class="input-cell" data-day="1" data-row="4" data-col="1" data-key="day1-row4-col1"></td>
-        <td class="input-cell" data-day="1" data-row="4" data-col="2" data-key="day1-row4-col2"></td>
-        <td class="input-cell" data-day="1" data-row="4" data-col="3" data-key="day1-row4-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>5</td>
-        <td>DOM修改元素内容及年会抽奖案例</td>
-        <td>19:36</td>
-        <td class="input-cell" data-day="1" data-row="5" data-col="1" data-key="day1-row5-col1"></td>
-        <td class="input-cell" data-day="1" data-row="5" data-col="2" data-key="day1-row5-col2"></td>
-        <td class="input-cell" data-day="1" data-row="5" data-col="3" data-key="day1-row5-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>6</td>
-        <td>DOM修改元素常见属性以及案例</td>
-        <td>09:04</td>
-        <td class="input-cell" data-day="1" data-row="6" data-col="1" data-key="day1-row6-col1"></td>
-        <td class="input-cell" data-day="1" data-row="6" data-col="2" data-key="day1-row6-col2"></td>
-        <td class="input-cell" data-day="1" data-row="6" data-col="3" data-key="day1-row6-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>7</td>
-        <td>通过style样式操作元素</td>
-        <td>10:16</td>
-        <td class="input-cell" data-day="1" data-row="7" data-col="1" data-key="day1-row7-col1"></td>
-        <td class="input-cell" data-day="1" data-row="7" data-col="2" data-key="day1-row7-col2"></td>
-        <td class="input-cell" data-day="1" data-row="7" data-col="3" data-key="day1-row7-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>8</td>
-        <td>通过类名修改样式</td>
-        <td>09:12</td>
-        <td class="input-cell" data-day="1" data-row="8" data-col="1" data-key="day1-row8-col1"></td>
-        <td class="input-cell" data-day="1" data-row="8" data-col="2" data-key="day1-row8-col2"></td>
-        <td class="input-cell" data-day="1" data-row="8" data-col="3" data-key="day1-row8-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>9</td>
-        <td>通过classList修改类名</td>
-        <td>10:33</td>
-        <td class="input-cell" data-day="1" data-row="9" data-col="1" data-key="day1-row9-col1"></td>
-        <td class="input-cell" data-day="1" data-row="9" data-col="2" data-key="day1-row9-col2"></td>
-        <td class="input-cell" data-day="1" data-row="9" data-col="3" data-key="day1-row9-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>10</td>
-        <td>随机轮播图案例</td>
-        <td>08:14</td>
-        <td class="input-cell" data-day="1" data-row="10" data-col="1" data-key="day1-row10-col1"></td>
-        <td class="input-cell" data-day="1" data-row="10" data-col="2" data-key="day1-row10-col2"></td>
-        <td class="input-cell" data-day="1" data-row="10" data-col="3" data-key="day1-row10-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>11</td>
-        <td>随机轮播图案例-下集</td>
-        <td>08:15</td>
-        <td class="input-cell" data-day="1" data-row="11" data-col="1" data-key="day1-row11-col1"></td>
-        <td class="input-cell" data-day="1" data-row="11" data-col="2" data-key="day1-row11-col2"></td>
-        <td class="input-cell" data-day="1" data-row="11" data-col="3" data-key="day1-row11-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>12</td>
-        <td>获取设置表单的值</td>
-        <td>08:13</td>
-        <td class="input-cell" data-day="1" data-row="12" data-col="1" data-key="day1-row12-col1"></td>
-        <td class="input-cell" data-day="1" data-row="12" data-col="2" data-key="day1-row12-col2"></td>
-        <td class="input-cell" data-day="1" data-row="12" data-col="3" data-key="day1-row12-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>13</td>
-        <td>H5自定义属性-data</td>
-        <td>05:40</td>
-        <td class="input-cell" data-day="1" data-row="13" data-col="1" data-key="day1-row13-col1"></td>
-        <td class="input-cell" data-day="1" data-row="13" data-col="2" data-key="day1-row13-col2"></td>
-        <td class="input-cell" data-day="1" data-row="13" data-col="3" data-key="day1-row13-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>14</td>
-        <td>定时器-间歇函数</td>
-        <td>10:01</td>
-        <td class="input-cell" data-day="1" data-row="14" data-col="1" data-key="day1-row14-col1"></td>
-        <td class="input-cell" data-day="1" data-row="14" data-col="2" data-key="day1-row14-col2"></td>
-        <td class="input-cell" data-day="1" data-row="14" data-col="3" data-key="day1-row14-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>15</td>
-        <td>定时器-倒计时案例</td>
-        <td>05:21</td>
-        <td class="input-cell" data-day="1" data-row="15" data-col="1" data-key="day1-row15-col1"></td>
-        <td class="input-cell" data-day="1" data-row="15" data-col="2" data-key="day1-row15-col2"></td>
-        <td class="input-cell" data-day="1" data-row="15" data-col="3" data-key="day1-row15-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>16</td>
-        <td>随机抽奖案例升级版</td>
-        <td>08:24</td>
-        <td class="input-cell" data-day="1" data-row="16" data-col="1" data-key="day1-row16-col1"></td>
-        <td class="input-cell" data-day="1" data-row="16" data-col="2" data-key="day1-row16-col2"></td>
-        <td class="input-cell" data-day="1" data-row="16" data-col="3" data-key="day1-row16-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>01:39:00</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>00:54:45</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day1总时长</td>
-        <td>02:33:45</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="study-row">
+          <td>web APIs阶段课程安排</td>
+          <td>05:53</td>
+          <td class="input-cell" data-day="1" data-row="1" data-col="1" data-key="day1-row1-col1"></td>
+          <td class="input-cell" data-day="1" data-row="1" data-col="2" data-key="day1-row1-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>声明变量const优先</td>
+          <td>17:02</td>
+          <td class="input-cell" data-day="1" data-row="2" data-col="1" data-key="day1-row2-col1"></td>
+          <td class="input-cell" data-day="1" data-row="2" data-col="2" data-key="day1-row2-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>DOM树和DOM对象</td>
+          <td>16:40</td>
+          <td class="input-cell" data-day="1" data-row="3" data-col="1" data-key="day1-row3-col1"></td>
+          <td class="input-cell" data-day="1" data-row="3" data-col="2" data-key="day1-row3-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>获取DOM元素</td>
+          <td>05:40</td>
+          <td class="input-cell" data-day="1" data-row="4" data-col="1" data-key="day1-row4-col1"></td>
+          <td class="input-cell" data-day="1" data-row="4" data-col="2" data-key="day1-row4-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>DOM修改元素内容及年会抽奖案例</td>
+          <td>19:36</td>
+          <td class="input-cell" data-day="1" data-row="5" data-col="1" data-key="day1-row5-col1"></td>
+          <td class="input-cell" data-day="1" data-row="5" data-col="2" data-key="day1-row5-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>DOM修改元素常见属性以及案例</td>
+          <td>09:04</td>
+          <td class="input-cell" data-day="1" data-row="6" data-col="1" data-key="day1-row6-col1"></td>
+          <td class="input-cell" data-day="1" data-row="6" data-col="2" data-key="day1-row6-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>通过style样式操作元素</td>
+          <td>10:16</td>
+          <td class="input-cell" data-day="1" data-row="7" data-col="1" data-key="day1-row7-col1"></td>
+          <td class="input-cell" data-day="1" data-row="7" data-col="2" data-key="day1-row7-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>通过类名修改样式</td>
+          <td>09:12</td>
+          <td class="input-cell" data-day="1" data-row="8" data-col="1" data-key="day1-row8-col1"></td>
+          <td class="input-cell" data-day="1" data-row="8" data-col="2" data-key="day1-row8-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>通过classList修改类名</td>
+          <td>10:33</td>
+          <td class="input-cell" data-day="1" data-row="9" data-col="1" data-key="day1-row9-col1"></td>
+          <td class="input-cell" data-day="1" data-row="9" data-col="2" data-key="day1-row9-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>随机轮播图案例</td>
+          <td>08:14</td>
+          <td class="input-cell" data-day="1" data-row="10" data-col="1" data-key="day1-row10-col1"></td>
+          <td class="input-cell" data-day="1" data-row="10" data-col="2" data-key="day1-row10-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>随机轮播图案例-下集</td>
+          <td>08:15</td>
+          <td class="input-cell" data-day="1" data-row="11" data-col="1" data-key="day1-row11-col1"></td>
+          <td class="input-cell" data-day="1" data-row="11" data-col="2" data-key="day1-row11-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>获取设置表单的值</td>
+          <td>08:13</td>
+          <td class="input-cell" data-day="1" data-row="12" data-col="1" data-key="day1-row12-col1"></td>
+          <td class="input-cell" data-day="1" data-row="12" data-col="2" data-key="day1-row12-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>H5自定义属性-data</td>
+          <td>05:40</td>
+          <td class="input-cell" data-day="1" data-row="13" data-col="1" data-key="day1-row13-col1"></td>
+          <td class="input-cell" data-day="1" data-row="13" data-col="2" data-key="day1-row13-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>定时器-间歇函数</td>
+          <td>10:01</td>
+          <td class="input-cell" data-day="1" data-row="14" data-col="1" data-key="day1-row14-col1"></td>
+          <td class="input-cell" data-day="1" data-row="14" data-col="2" data-key="day1-row14-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>定时器-倒计时案例</td>
+          <td>05:21</td>
+          <td class="input-cell" data-day="1" data-row="15" data-col="1" data-key="day1-row15-col1"></td>
+          <td class="input-cell" data-day="1" data-row="15" data-col="2" data-key="day1-row15-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>随机抽奖案例升级版</td>
+          <td>08:24</td>
+          <td class="input-cell" data-day="1" data-row="16" data-col="1" data-key="day1-row16-col1"></td>
+          <td class="input-cell" data-day="1" data-row="16" data-col="2" data-key="day1-row16-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>01:39:00</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>00:54:45</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day1总时长</td>
+          <td>02:33:45</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Day2 -->
     <h2>Day2</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="case-row">
-        <td>1</td>
-        <td>事件监听以及案例</td>
-        <td>08:35</td>
-        <td class="input-cell" data-day="2" data-row="1" data-col="1" data-key="day2-row1-col1"></td>
-        <td class="input-cell" data-day="2" data-row="1" data-col="2" data-key="day2-row1-col2"></td>
-        <td class="input-cell" data-day="2" data-row="1" data-col="3" data-key="day2-row1-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>2</td>
-        <td>随机轮播图完整版</td>
-        <td>28:14</td>
-        <td class="input-cell" data-day="2" data-row="2" data-col="1" data-key="day2-row2-col1"></td>
-        <td class="input-cell" data-day="2" data-row="2" data-col="2" data-key="day2-row2-col2"></td>
-        <td class="input-cell" data-day="2" data-row="2" data-col="3" data-key="day2-row2-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>3</td>
-        <td>事件监听版本以及鼠标事件</td>
-        <td>14:44</td>
-        <td class="input-cell" data-day="2" data-row="3" data-col="1" data-key="day2-row3-col1"></td>
-        <td class="input-cell" data-day="2" data-row="3" data-col="2" data-key="day2-row3-col2"></td>
-        <td class="input-cell" data-day="2" data-row="3" data-col="3" data-key="day2-row3-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>4</td>
-        <td>轮播图完整版-上集</td>
-        <td>15:00</td>
-        <td class="input-cell" data-day="2" data-row="4" data-col="1" data-key="day2-row4-col1"></td>
-        <td class="input-cell" data-day="2" data-row="4" data-col="2" data-key="day2-row4-col2"></td>
-        <td class="input-cell" data-day="2" data-row="4" data-col="3" data-key="day2-row4-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>5</td>
-        <td>轮播图完整版-下集</td>
-        <td>15:00</td>
-        <td class="input-cell" data-day="2" data-row="5" data-col="1" data-key="day2-row5-col1"></td>
-        <td class="input-cell" data-day="2" data-row="5" data-col="2" data-key="day2-row5-col2"></td>
-        <td class="input-cell" data-day="2" data-row="5" data-col="3" data-key="day2-row5-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>6</td>
-        <td>焦点事件以及小米搜索框案例</td>
-        <td>05:33</td>
-        <td class="input-cell" data-day="2" data-row="6" data-col="1" data-key="day2-row6-col1"></td>
-        <td class="input-cell" data-day="2" data-row="6" data-col="2" data-key="day2-row6-col2"></td>
-        <td class="input-cell" data-day="2" data-row="6" data-col="3" data-key="day2-row6-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>7</td>
-        <td>键盘事件以及发布评论案例</td>
-        <td>10:00</td>
-        <td class="input-cell" data-day="2" data-row="7" data-col="1" data-key="day2-row7-col1"></td>
-        <td class="input-cell" data-day="2" data-row="7" data-col="2" data-key="day2-row7-col2"></td>
-        <td class="input-cell" data-day="2" data-row="7" data-col="3" data-key="day2-row7-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>8</td>
-        <td>事件对象event以及常见属性</td>
-        <td>09:04</td>
-        <td class="input-cell" data-day="2" data-row="8" data-col="1" data-key="day2-row8-col1"></td>
-        <td class="input-cell" data-day="2" data-row="8" data-col="2" data-key="day2-row8-col2"></td>
-        <td class="input-cell" data-day="2" data-row="8" data-col="3" data-key="day2-row8-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>9</td>
-        <td>回车发布评论案例</td>
-        <td>03:47</td>
-        <td class="input-cell" data-day="2" data-row="9" data-col="1" data-key="day2-row9-col1"></td>
-        <td class="input-cell" data-day="2" data-row="9" data-col="2" data-key="day2-row9-col2"></td>
-        <td class="input-cell" data-day="2" data-row="9" data-col="3" data-key="day2-row9-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>10</td>
-        <td>环境对象this以及回调函数</td>
-        <td>09:04</td>
-        <td class="input-cell" data-day="2" data-row="10" data-col="1" data-key="day2-row10-col1"></td>
-        <td class="input-cell" data-day="2" data-row="10" data-col="2" data-key="day2-row10-col2"></td>
-        <td class="input-cell" data-day="2" data-row="10" data-col="3" data-key="day2-row10-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>11</td>
-        <td>今日综合案例-tab切换</td>
-        <td>08:54</td>
-        <td class="input-cell" data-day="2" data-row="11" data-col="1" data-key="day2-row11-col1"></td>
-        <td class="input-cell" data-day="2" data-row="11" data-col="2" data-key="day2-row11-col2"></td>
-        <td class="input-cell" data-day="2" data-row="11" data-col="3" data-key="day2-row11-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>00:18:08</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>02:09:57</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day2总时长</td>
-        <td>02:28:05</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="case-row">
+          <td>事件监听以及案例</td>
+          <td>08:35</td>
+          <td class="input-cell" data-day="2" data-row="1" data-col="1" data-key="day2-row1-col1"></td>
+          <td class="input-cell" data-day="2" data-row="1" data-col="2" data-key="day2-row1-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>随机轮播图完整版</td>
+          <td>28:14</td>
+          <td class="input-cell" data-day="2" data-row="2" data-col="1" data-key="day2-row2-col1"></td>
+          <td class="input-cell" data-day="2" data-row="2" data-col="2" data-key="day2-row2-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>事件监听版本以及鼠标事件</td>
+          <td>14:44</td>
+          <td class="input-cell" data-day="2" data-row="3" data-col="1" data-key="day2-row3-col1"></td>
+          <td class="input-cell" data-day="2" data-row="3" data-col="2" data-key="day2-row3-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>轮播图完整版-上集</td>
+          <td>15:00</td>
+          <td class="input-cell" data-day="2" data-row="4" data-col="1" data-key="day2-row4-col1"></td>
+          <td class="input-cell" data-day="2" data-row="4" data-col="2" data-key="day2-row4-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>轮播图完整版-下集</td>
+          <td>15:00</td>
+          <td class="input-cell" data-day="2" data-row="5" data-col="1" data-key="day2-row5-col1"></td>
+          <td class="input-cell" data-day="2" data-row="5" data-col="2" data-key="day2-row5-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>焦点事件以及小米搜索框案例</td>
+          <td>05:33</td>
+          <td class="input-cell" data-day="2" data-row="6" data-col="1" data-key="day2-row6-col1"></td>
+          <td class="input-cell" data-day="2" data-row="6" data-col="2" data-key="day2-row6-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>键盘事件以及发布评论案例</td>
+          <td>10:00</td>
+          <td class="input-cell" data-day="2" data-row="7" data-col="1" data-key="day2-row7-col1"></td>
+          <td class="input-cell" data-day="2" data-row="7" data-col="2" data-key="day2-row7-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>事件对象event以及常见属性</td>
+          <td>09:04</td>
+          <td class="input-cell" data-day="2" data-row="8" data-col="1" data-key="day2-row8-col1"></td>
+          <td class="input-cell" data-day="2" data-row="8" data-col="2" data-key="day2-row8-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>回车发布评论案例</td>
+          <td>03:47</td>
+          <td class="input-cell" data-day="2" data-row="9" data-col="1" data-key="day2-row9-col1"></td>
+          <td class="input-cell" data-day="2" data-row="9" data-col="2" data-key="day2-row9-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>环境对象this以及回调函数</td>
+          <td>09:04</td>
+          <td class="input-cell" data-day="2" data-row="10" data-col="1" data-key="day2-row10-col1"></td>
+          <td class="input-cell" data-day="2" data-row="10" data-col="2" data-key="day2-row10-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>今日综合案例-tab切换</td>
+          <td>08:54</td>
+          <td class="input-cell" data-day="2" data-row="11" data-col="1" data-key="day2-row11-col1"></td>
+          <td class="input-cell" data-day="2" data-row="11" data-col="2" data-key="day2-row11-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>00:18:08</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>02:09:57</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day2总时长</td>
+          <td>02:28:05</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Day3 -->
     <h2>Day3</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="study-row">
-        <td>1</td>
-        <td>表单全选及选项案例</td>
-        <td>03:26</td>
-        <td class="input-cell" data-day="3" data-row="1" data-col="1" data-key="day3-row1-col1"></td>
-        <td class="input-cell" data-day="3" data-row="1" data-col="2" data-key="day3-row1-col2"></td>
-        <td class="input-cell" data-day="3" data-row="1" data-col="3" data-key="day3-row1-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>2</td>
-        <td>事件流、事件冒泡以及阻止冒泡</td>
-        <td>23:25</td>
-        <td class="input-cell" data-day="3" data-row="2" data-col="1" data-key="day3-row2-col1"></td>
-        <td class="input-cell" data-day="3" data-row="2" data-col="2" data-key="day3-row2-col2"></td>
-        <td class="input-cell" data-day="3" data-row="2" data-col="3" data-key="day3-row2-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>3</td>
-        <td>事件对象、mouseoever和mouseout的区别</td>
-        <td>14:41</td>
-        <td class="input-cell" data-day="3" data-row="3" data-col="1" data-key="day3-row3-col1"></td>
-        <td class="input-cell" data-day="3" data-row="3" data-col="2" data-key="day3-row3-col2"></td>
-        <td class="input-cell" data-day="3" data-row="3" data-col="3" data-key="day3-row3-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>4</td>
-        <td>事件委托</td>
-        <td>09:13</td>
-        <td class="input-cell" data-day="3" data-row="4" data-col="1" data-key="day3-row4-col1"></td>
-        <td class="input-cell" data-day="3" data-row="4" data-col="2" data-key="day3-row4-col2"></td>
-        <td class="input-cell" data-day="3" data-row="4" data-col="3" data-key="day3-row4-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>5</td>
-        <td>阻止元素默认行为</td>
-        <td>05:56</td>
-        <td class="input-cell" data-day="3" data-row="5" data-col="1" data-key="day3-row5-col1"></td>
-        <td class="input-cell" data-day="3" data-row="5" data-col="2" data-key="day3-row5-col2"></td>
-        <td class="input-cell" data-day="3" data-row="5" data-col="3" data-key="day3-row5-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>6</td>
-        <td>综合案例-电梯导航案例上集</td>
-        <td>08:34</td>
-        <td class="input-cell" data-day="3" data-row="6" data-col="1" data-key="day3-row6-col1"></td>
-        <td class="input-cell" data-day="3" data-row="6" data-col="2" data-key="day3-row6-col2"></td>
-        <td class="input-cell" data-day="3" data-row="6" data-col="3" data-key="day3-row6-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>7</td>
-        <td>综合案例-电梯导航案例下集</td>
-        <td>08:34</td>
-        <td class="input-cell" data-day="3" data-row="7" data-col="1" data-key="day3-row7-col1"></td>
-        <td class="input-cell" data-day="3" data-row="7" data-col="2" data-key="day3-row7-col2"></td>
-        <td class="input-cell" data-day="3" data-row="7" data-col="3" data-key="day3-row7-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>8</td>
-        <td>client家族和offset家族</td>
-        <td>05:25</td>
-        <td class="input-cell" data-day="3" data-row="8" data-col="1" data-key="day3-row8-col1"></td>
-        <td class="input-cell" data-day="3" data-row="8" data-col="2" data-key="day3-row8-col2"></td>
-        <td class="input-cell" data-day="3" data-row="8" data-col="3" data-key="day3-row8-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>9</td>
-        <td>仿京东滑动以及bilibili导航滑动案例</td>
-        <td>07:19</td>
-        <td class="input-cell" data-day="3" data-row="9" data-col="1" data-key="day3-row9-col1"></td>
-        <td class="input-cell" data-day="3" data-row="9" data-col="2" data-key="day3-row9-col2"></td>
-        <td class="input-cell" data-day="3" data-row="9" data-col="3" data-key="day3-row9-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>10</td>
-        <td>综合案例-电梯导航案例上集</td>
-        <td>08:34</td>
-        <td class="input-cell" data-day="3" data-row="10" data-col="1" data-key="day3-row10-col1"></td>
-        <td class="input-cell" data-day="3" data-row="10" data-col="2" data-key="day3-row10-col2"></td>
-        <td class="input-cell" data-day="3" data-row="10" data-col="3" data-key="day3-row10-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>11</td>
-        <td>综合案例-电梯导航案例下集</td>
-        <td>08:34</td>
-        <td class="input-cell" data-day="3" data-row="11" data-col="1" data-key="day3-row11-col1"></td>
-        <td class="input-cell" data-day="3" data-row="11" data-col="2" data-key="day3-row11-col2"></td>
-        <td class="input-cell" data-day="3" data-row="11" data-col="3" data-key="day3-row11-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>01:02:06</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>00:41:35</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day3总时长</td>
-        <td>01:43:41</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="study-row">
+          <td>表单全选及选项案例</td>
+          <td>03:26</td>
+          <td class="input-cell" data-day="3" data-row="1" data-col="1" data-key="day3-row1-col1"></td>
+          <td class="input-cell" data-day="3" data-row="1" data-col="2" data-key="day3-row1-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>事件流、事件冒泡以及阻止冒泡</td>
+          <td>23:25</td>
+          <td class="input-cell" data-day="3" data-row="2" data-col="1" data-key="day3-row2-col1"></td>
+          <td class="input-cell" data-day="3" data-row="2" data-col="2" data-key="day3-row2-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>事件对象、mouseoever和mouseout的区别</td>
+          <td>14:41</td>
+          <td class="input-cell" data-day="3" data-row="3" data-col="1" data-key="day3-row3-col1"></td>
+          <td class="input-cell" data-day="3" data-row="3" data-col="2" data-key="day3-row3-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>事件委托</td>
+          <td>09:13</td>
+          <td class="input-cell" data-day="3" data-row="4" data-col="1" data-key="day3-row4-col1"></td>
+          <td class="input-cell" data-day="3" data-row="4" data-col="2" data-key="day3-row4-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>阻止元素默认行为</td>
+          <td>05:56</td>
+          <td class="input-cell" data-day="3" data-row="5" data-col="1" data-key="day3-row5-col1"></td>
+          <td class="input-cell" data-day="3" data-row="5" data-col="2" data-key="day3-row5-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-电梯导航案例上集</td>
+          <td>08:34</td>
+          <td class="input-cell" data-day="3" data-row="6" data-col="1" data-key="day3-row6-col1"></td>
+          <td class="input-cell" data-day="3" data-row="6" data-col="2" data-key="day3-row6-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-电梯导航案例下集</td>
+          <td>08:34</td>
+          <td class="input-cell" data-day="3" data-row="7" data-col="1" data-key="day3-row7-col1"></td>
+          <td class="input-cell" data-day="3" data-row="7" data-col="2" data-key="day3-row7-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>client家族和offset家族</td>
+          <td>05:25</td>
+          <td class="input-cell" data-day="3" data-row="8" data-col="1" data-key="day3-row8-col1"></td>
+          <td class="input-cell" data-day="3" data-row="8" data-col="2" data-key="day3-row8-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>仿京东滑动以及bilibili导航滑动案例</td>
+          <td>07:19</td>
+          <td class="input-cell" data-day="3" data-row="9" data-col="1" data-key="day3-row9-col1"></td>
+          <td class="input-cell" data-day="3" data-row="9" data-col="2" data-key="day3-row9-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-电梯导航案例上集</td>
+          <td>08:34</td>
+          <td class="input-cell" data-day="3" data-row="10" data-col="1" data-key="day3-row10-col1"></td>
+          <td class="input-cell" data-day="3" data-row="10" data-col="2" data-key="day3-row10-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-电梯导航案例下集</td>
+          <td>08:34</td>
+          <td class="input-cell" data-day="3" data-row="11" data-col="1" data-key="day3-row11-col1"></td>
+          <td class="input-cell" data-day="3" data-row="11" data-col="2" data-key="day3-row11-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>01:02:06</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>00:41:35</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day3总时长</td>
+          <td>01:43:41</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Day4 -->
     <h2>Day4</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="study-row">
-        <td>1</td>
-        <td>日期对象的使用</td>
-        <td>28:31</td>
-        <td class="input-cell" data-day="4" data-row="1" data-col="1" data-key="day4-row1-col1"></td>
-        <td class="input-cell" data-day="4" data-row="1" data-col="2" data-key="day4-row1-col2"></td>
-        <td class="input-cell" data-day="4" data-row="1" data-col="3" data-key="day4-row1-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>2</td>
-        <td>时间戳的使用</td>
-        <td>08:41</td>
-        <td class="input-cell" data-day="4" data-row="2" data-col="1" data-key="day4-row2-col1"></td>
-        <td class="input-cell" data-day="4" data-row="2" data-col="2" data-key="day4-row2-col2"></td>
-        <td class="input-cell" data-day="4" data-row="2" data-col="3" data-key="day4-row2-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>3</td>
-        <td>倒计时案例的制作</td>
-        <td>22:44</td>
-        <td class="input-cell" data-day="4" data-row="3" data-col="1" data-key="day4-row3-col1"></td>
-        <td class="input-cell" data-day="4" data-row="3" data-col="2" data-key="day4-row3-col2"></td>
-        <td class="input-cell" data-day="4" data-row="3" data-col="3" data-key="day4-row3-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>4</td>
-        <td>查找DOM节点</td>
-        <td>05:21</td>
-        <td class="input-cell" data-day="4" data-row="4" data-col="1" data-key="day4-row4-col1"></td>
-        <td class="input-cell" data-day="4" data-row="4" data-col="2" data-key="day4-row4-col2"></td>
-        <td class="input-cell" data-day="4" data-row="4" data-col="3" data-key="day4-row4-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>5</td>
-        <td>增加城市点以及完成在线委案</td>
-        <td>25:54</td>
-        <td class="input-cell" data-day="4" data-row="5" data-col="1" data-key="day4-row5-col1"></td>
-        <td class="input-cell" data-day="4" data-row="5" data-col="2" data-key="day4-row5-col2"></td>
-        <td class="input-cell" data-day="4" data-row="5" data-col="3" data-key="day4-row5-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>6</td>
-        <td>查找节点和删除节点</td>
-        <td>09:41</td>
-        <td class="input-cell" data-day="4" data-row="6" data-col="1" data-key="day4-row6-col1"></td>
-        <td class="input-cell" data-day="4" data-row="6" data-col="2" data-key="day4-row6-col2"></td>
-        <td class="input-cell" data-day="4" data-row="6" data-col="3" data-key="day4-row6-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>7</td>
-        <td>事件事件</td>
-        <td>05:04</td>
-        <td class="input-cell" data-day="4" data-row="7" data-col="1" data-key="day4-row7-col1"></td>
-        <td class="input-cell" data-day="4" data-row="7" data-col="2" data-key="day4-row7-col2"></td>
-        <td class="input-cell" data-day="4" data-row="7" data-col="3" data-key="day4-row7-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>8</td>
-        <td>swiper插件的使用</td>
-        <td>05:04</td>
-        <td class="input-cell" data-day="4" data-row="8" data-col="1" data-key="day4-row8-col1"></td>
-        <td class="input-cell" data-day="4" data-row="8" data-col="2" data-key="day4-row8-col2"></td>
-        <td class="input-cell" data-day="4" data-row="8" data-col="3" data-key="day4-row8-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>9</td>
-        <td>今日综合案例-学生信息表上集</td>
-        <td>10:23</td>
-        <td class="input-cell" data-day="4" data-row="9" data-col="1" data-key="day4-row9-col1"></td>
-        <td class="input-cell" data-day="4" data-row="9" data-col="2" data-key="day4-row9-col2"></td>
-        <td class="input-cell" data-day="4" data-row="9" data-col="3" data-key="day4-row9-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>10</td>
-        <td>今日综合案例-学生信息表下集</td>
-        <td>10:23</td>
-        <td class="input-cell" data-day="4" data-row="10" data-col="1" data-key="day4-row10-col1"></td>
-        <td class="input-cell" data-day="4" data-row="10" data-col="2" data-key="day4-row10-col2"></td>
-        <td class="input-cell" data-day="4" data-row="10" data-col="3" data-key="day4-row10-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>11</td>
-        <td>BOM和函数返回值或setTimeout</td>
-        <td>08:16</td>
-        <td class="input-cell" data-day="4" data-row="11" data-col="1" data-key="day4-row11-col1"></td>
-        <td class="input-cell" data-day="4" data-row="11" data-col="2" data-key="day4-row11-col2"></td>
-        <td class="input-cell" data-day="4" data-row="11" data-col="3" data-key="day4-row11-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>12</td>
-        <td>事件监听器</td>
-        <td>02:24</td>
-        <td class="input-cell" data-day="4" data-row="12" data-col="1" data-key="day4-row12-col1"></td>
-        <td class="input-cell" data-day="4" data-row="12" data-col="2" data-key="day4-row12-col2"></td>
-        <td class="input-cell" data-day="4" data-row="12" data-col="3" data-key="day4-row12-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>13</td>
-        <td>location对象</td>
-        <td>06:18</td>
-        <td class="input-cell" data-day="4" data-row="13" data-col="1" data-key="day4-row13-col1"></td>
-        <td class="input-cell" data-day="4" data-row="13" data-col="2" data-key="day4-row13-col2"></td>
-        <td class="input-cell" data-day="4" data-row="13" data-col="3" data-key="day4-row13-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>14</td>
-        <td>navigator对象和history对象</td>
-        <td>10:23</td>
-        <td class="input-cell" data-day="4" data-row="14" data-col="1" data-key="day4-row14-col1"></td>
-        <td class="input-cell" data-day="4" data-row="14" data-col="2" data-key="day4-row14-col2"></td>
-        <td class="input-cell" data-day="4" data-row="14" data-col="3" data-key="day4-row14-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>15</td>
-        <td>本地存储localstorage</td>
-        <td>10:13</td>
-        <td class="input-cell" data-day="4" data-row="15" data-col="1" data-key="day4-row15-col1"></td>
-        <td class="input-cell" data-day="4" data-row="15" data-col="2" data-key="day4-row15-col2"></td>
-        <td class="input-cell" data-day="4" data-row="15" data-col="3" data-key="day4-row15-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>16</td>
-        <td>本地存储处理复杂数据类型</td>
-        <td>20:26</td>
-        <td class="input-cell" data-day="4" data-row="16" data-col="1" data-key="day4-row16-col1"></td>
-        <td class="input-cell" data-day="4" data-row="16" data-col="2" data-key="day4-row16-col2"></td>
-        <td class="input-cell" data-day="4" data-row="16" data-col="3" data-key="day4-row16-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>17</td>
-        <td>综合案例-读取本地存储数据</td>
-        <td>05:12</td>
-        <td class="input-cell" data-day="4" data-row="17" data-col="1" data-key="day4-row17-col1"></td>
-        <td class="input-cell" data-day="4" data-row="17" data-col="2" data-key="day4-row17-col2"></td>
-        <td class="input-cell" data-day="4" data-row="17" data-col="3" data-key="day4-row17-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>02:10:21</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>01:24:17</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day4总时长</td>
-        <td>03:34:38</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="study-row">
+          <td>日期对象的使用</td>
+          <td>28:31</td>
+          <td class="input-cell" data-day="4" data-row="1" data-col="1" data-key="day4-row1-col1"></td>
+          <td class="input-cell" data-day="4" data-row="1" data-col="2" data-key="day4-row1-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>时间戳的使用</td>
+          <td>08:41</td>
+          <td class="input-cell" data-day="4" data-row="2" data-col="1" data-key="day4-row2-col1"></td>
+          <td class="input-cell" data-day="4" data-row="2" data-col="2" data-key="day4-row2-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>倒计时案例的制作</td>
+          <td>22:44</td>
+          <td class="input-cell" data-day="4" data-row="3" data-col="1" data-key="day4-row3-col1"></td>
+          <td class="input-cell" data-day="4" data-row="3" data-col="2" data-key="day4-row3-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>查找DOM节点</td>
+          <td>05:21</td>
+          <td class="input-cell" data-day="4" data-row="4" data-col="1" data-key="day4-row4-col1"></td>
+          <td class="input-cell" data-day="4" data-row="4" data-col="2" data-key="day4-row4-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>增加城市点以及完成在线委案</td>
+          <td>25:54</td>
+          <td class="input-cell" data-day="4" data-row="5" data-col="1" data-key="day4-row5-col1"></td>
+          <td class="input-cell" data-day="4" data-row="5" data-col="2" data-key="day4-row5-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>查找节点和删除节点</td>
+          <td>09:41</td>
+          <td class="input-cell" data-day="4" data-row="6" data-col="1" data-key="day4-row6-col1"></td>
+          <td class="input-cell" data-day="4" data-row="6" data-col="2" data-key="day4-row6-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>事件事件</td>
+          <td>05:04</td>
+          <td class="input-cell" data-day="4" data-row="7" data-col="1" data-key="day4-row7-col1"></td>
+          <td class="input-cell" data-day="4" data-row="7" data-col="2" data-key="day4-row7-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>swiper插件的使用</td>
+          <td>05:04</td>
+          <td class="input-cell" data-day="4" data-row="8" data-col="1" data-key="day4-row8-col1"></td>
+          <td class="input-cell" data-day="4" data-row="8" data-col="2" data-key="day4-row8-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>今日综合案例-学生信息表上集</td>
+          <td>10:23</td>
+          <td class="input-cell" data-day="4" data-row="9" data-col="1" data-key="day4-row9-col1"></td>
+          <td class="input-cell" data-day="4" data-row="9" data-col="2" data-key="day4-row9-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>今日综合案例-学生信息表下集</td>
+          <td>10:23</td>
+          <td class="input-cell" data-day="4" data-row="10" data-col="1" data-key="day4-row10-col1"></td>
+          <td class="input-cell" data-day="4" data-row="10" data-col="2" data-key="day4-row10-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>BOM和函数返回值或setTimeout</td>
+          <td>08:16</td>
+          <td class="input-cell" data-day="4" data-row="11" data-col="1" data-key="day4-row11-col1"></td>
+          <td class="input-cell" data-day="4" data-row="11" data-col="2" data-key="day4-row11-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>事件监听器</td>
+          <td>02:24</td>
+          <td class="input-cell" data-day="4" data-row="12" data-col="1" data-key="day4-row12-col1"></td>
+          <td class="input-cell" data-day="4" data-row="12" data-col="2" data-key="day4-row12-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>location对象</td>
+          <td>06:18</td>
+          <td class="input-cell" data-day="4" data-row="13" data-col="1" data-key="day4-row13-col1"></td>
+          <td class="input-cell" data-day="4" data-row="13" data-col="2" data-key="day4-row13-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>navigator对象和history对象</td>
+          <td>10:23</td>
+          <td class="input-cell" data-day="4" data-row="14" data-col="1" data-key="day4-row14-col1"></td>
+          <td class="input-cell" data-day="4" data-row="14" data-col="2" data-key="day4-row14-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>本地存储localstorage</td>
+          <td>10:13</td>
+          <td class="input-cell" data-day="4" data-row="15" data-col="1" data-key="day4-row15-col1"></td>
+          <td class="input-cell" data-day="4" data-row="15" data-col="2" data-key="day4-row15-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>本地存储处理复杂数据类型</td>
+          <td>20:26</td>
+          <td class="input-cell" data-day="4" data-row="16" data-col="1" data-key="day4-row16-col1"></td>
+          <td class="input-cell" data-day="4" data-row="16" data-col="2" data-key="day4-row16-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-读取本地存储数据</td>
+          <td>05:12</td>
+          <td class="input-cell" data-day="4" data-row="17" data-col="1" data-key="day4-row17-col1"></td>
+          <td class="input-cell" data-day="4" data-row="17" data-col="2" data-key="day4-row17-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>02:10:21</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>01:24:17</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day4总时长</td>
+          <td>03:34:38</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Day5 -->
     <h2>Day5</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="study-row">
-        <td>1</td>
-        <td>数组map和join方法</td>
-        <td>06:44</td>
-        <td class="input-cell" data-day="5" data-row="1" data-col="1" data-key="day5-row1-col1"></td>
-        <td class="input-cell" data-day="5" data-row="1" data-col="2" data-key="day5-row1-col2"></td>
-        <td class="input-cell" data-day="5" data-row="1" data-col="3" data-key="day5-row1-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>2</td>
-        <td>综合案例-渲染模块制作</td>
-        <td>04:22</td>
-        <td class="input-cell" data-day="5" data-row="2" data-col="1" data-key="day5-row2-col1"></td>
-        <td class="input-cell" data-day="5" data-row="2" data-col="2" data-key="day5-row2-col2"></td>
-        <td class="input-cell" data-day="5" data-row="2" data-col="3" data-key="day5-row2-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>3</td>
-        <td>综合案例-删除模块制作以及学号处理</td>
-        <td>04:22</td>
-        <td class="input-cell" data-day="5" data-row="3" data-col="1" data-key="day5-row3-col1"></td>
-        <td class="input-cell" data-day="5" data-row="3" data-col="2" data-key="day5-row3-col2"></td>
-        <td class="input-cell" data-day="5" data-row="3" data-col="3" data-key="day5-row3-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>4</td>
-        <td>正则表达式使用</td>
-        <td>18:36</td>
-        <td class="input-cell" data-day="5" data-row="4" data-col="1" data-key="day5-row4-col1"></td>
-        <td class="input-cell" data-day="5" data-row="4" data-col="2" data-key="day5-row4-col2"></td>
-        <td class="input-cell" data-day="5" data-row="4" data-col="3" data-key="day5-row4-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>5</td>
-        <td>元素节点边界</td>
-        <td>14:45</td>
-        <td class="input-cell" data-day="5" data-row="5" data-col="1" data-key="day5-row5-col1"></td>
-        <td class="input-cell" data-day="5" data-row="5" data-col="2" data-key="day5-row5-col2"></td>
-        <td class="input-cell" data-day="5" data-row="5" data-col="3" data-key="day5-row5-col3"></td>
-      </tr>
-      <tr class="study-row">
-        <td>6</td>
-        <td>预定义以及原型对象抽象</td>
-        <td>06:21</td>
-        <td class="input-cell" data-day="5" data-row="6" data-col="1" data-key="day5-row6-col1"></td>
-        <td class="input-cell" data-day="5" data-row="6" data-col="2" data-key="day5-row6-col2"></td>
-        <td class="input-cell" data-day="5" data-row="6" data-col="3" data-key="day5-row6-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>7</td>
-        <td>今日综合案例-短视频页面-短链渲染模块</td>
-        <td>09:44</td>
-        <td class="input-cell" data-day="5" data-row="7" data-col="1" data-key="day5-row7-col1"></td>
-        <td class="input-cell" data-day="5" data-row="7" data-col="2" data-key="day5-row7-col2"></td>
-        <td class="input-cell" data-day="5" data-row="7" data-col="3" data-key="day5-row7-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>8</td>
-        <td>今日综合案例-短视频页面-短链删除模块</td>
-        <td>09:44</td>
-        <td class="input-cell" data-day="5" data-row="8" data-col="1" data-key="day5-row8-col1"></td>
-        <td class="input-cell" data-day="5" data-row="8" data-col="2" data-key="day5-row8-col2"></td>
-        <td class="input-cell" data-day="5" data-row="8" data-col="3" data-key="day5-row8-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>9</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="9" data-col="1" data-key="day5-row9-col1"></td>
-        <td class="input-cell" data-day="5" data-row="9" data-col="2" data-key="day5-row9-col2"></td>
-        <td class="input-cell" data-day="5" data-row="9" data-col="3" data-key="day5-row9-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>10</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="10" data-col="1" data-key="day5-row10-col1"></td>
-        <td class="input-cell" data-day="5" data-row="10" data-col="2" data-key="day5-row10-col2"></td>
-        <td class="input-cell" data-day="5" data-row="10" data-col="3" data-key="day5-row10-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>11</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="11" data-col="1" data-key="day5-row11-col1"></td>
-        <td class="input-cell" data-day="5" data-row="11" data-col="2" data-key="day5-row11-col2"></td>
-        <td class="input-cell" data-day="5" data-row="11" data-col="3" data-key="day5-row11-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>12</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="12" data-col="1" data-key="day5-row12-col1"></td>
-        <td class="input-cell" data-day="5" data-row="12" data-col="2" data-key="day5-row12-col2"></td>
-        <td class="input-cell" data-day="5" data-row="12" data-col="3" data-key="day5-row12-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>13</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="13" data-col="1" data-key="day5-row13-col1"></td>
-        <td class="input-cell" data-day="5" data-row="13" data-col="2" data-key="day5-row13-col2"></td>
-        <td class="input-cell" data-day="5" data-row="13" data-col="3" data-key="day5-row13-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>14</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="14" data-col="1" data-key="day5-row14-col1"></td>
-        <td class="input-cell" data-day="5" data-row="14" data-col="2" data-key="day5-row14-col2"></td>
-        <td class="input-cell" data-day="5" data-row="14" data-col="3" data-key="day5-row14-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>15</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="15" data-col="1" data-key="day5-row15-col1"></td>
-        <td class="input-cell" data-day="5" data-row="15" data-col="2" data-key="day5-row15-col2"></td>
-        <td class="input-cell" data-day="5" data-row="15" data-col="3" data-key="day5-row15-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>16</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="16" data-col="1" data-key="day5-row16-col1"></td>
-        <td class="input-cell" data-day="5" data-row="16" data-col="2" data-key="day5-row16-col2"></td>
-        <td class="input-cell" data-day="5" data-row="16" data-col="3" data-key="day5-row16-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>17</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="17" data-col="1" data-key="day5-row17-col1"></td>
-        <td class="input-cell" data-day="5" data-row="17" data-col="2" data-key="day5-row17-col2"></td>
-        <td class="input-cell" data-day="5" data-row="17" data-col="3" data-key="day5-row17-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>18</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="18" data-col="1" data-key="day5-row18-col1"></td>
-        <td class="input-cell" data-day="5" data-row="18" data-col="2" data-key="day5-row18-col2"></td>
-        <td class="input-cell" data-day="5" data-row="18" data-col="3" data-key="day5-row18-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>19</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="19" data-col="1" data-key="day5-row19-col1"></td>
-        <td class="input-cell" data-day="5" data-row="19" data-col="2" data-key="day5-row19-col2"></td>
-        <td class="input-cell" data-day="5" data-row="19" data-col="3" data-key="day5-row19-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>20</td>
-        <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
-        <td>21:04</td>
-        <td class="input-cell" data-day="5" data-row="20" data-col="1" data-key="day5-row20-col1"></td>
-        <td class="input-cell" data-day="5" data-row="20" data-col="2" data-key="day5-row20-col2"></td>
-        <td class="input-cell" data-day="5" data-row="20" data-col="3" data-key="day5-row20-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>00:46:26</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>04:36:36</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day5总时长</td>
-        <td>05:23:02</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="study-row">
+          <td>数组map和join方法</td>
+          <td>06:44</td>
+          <td class="input-cell" data-day="5" data-row="1" data-col="1" data-key="day5-row1-col1"></td>
+          <td class="input-cell" data-day="5" data-row="1" data-col="2" data-key="day5-row1-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-渲染模块制作</td>
+          <td>04:22</td>
+          <td class="input-cell" data-day="5" data-row="2" data-col="1" data-key="day5-row2-col1"></td>
+          <td class="input-cell" data-day="5" data-row="2" data-col="2" data-key="day5-row2-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-删除模块制作以及学号处理</td>
+          <td>04:22</td>
+          <td class="input-cell" data-day="5" data-row="3" data-col="1" data-key="day5-row3-col1"></td>
+          <td class="input-cell" data-day="5" data-row="3" data-col="2" data-key="day5-row3-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>正则表达式使用</td>
+          <td>18:36</td>
+          <td class="input-cell" data-day="5" data-row="4" data-col="1" data-key="day5-row4-col1"></td>
+          <td class="input-cell" data-day="5" data-row="4" data-col="2" data-key="day5-row4-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>元素节点边界</td>
+          <td>14:45</td>
+          <td class="input-cell" data-day="5" data-row="5" data-col="1" data-key="day5-row5-col1"></td>
+          <td class="input-cell" data-day="5" data-row="5" data-col="2" data-key="day5-row5-col2"></td>
+        </tr>
+        <tr class="study-row">
+          <td>预定义以及原型对象抽象</td>
+          <td>06:21</td>
+          <td class="input-cell" data-day="5" data-row="6" data-col="1" data-key="day5-row6-col1"></td>
+          <td class="input-cell" data-day="5" data-row="6" data-col="2" data-key="day5-row6-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>今日综合案例-短视频页面-短链渲染模块</td>
+          <td>09:44</td>
+          <td class="input-cell" data-day="5" data-row="7" data-col="1" data-key="day5-row7-col1"></td>
+          <td class="input-cell" data-day="5" data-row="7" data-col="2" data-key="day5-row7-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>今日综合案例-短视频页面-短链删除模块</td>
+          <td>09:44</td>
+          <td class="input-cell" data-day="5" data-row="8" data-col="1" data-key="day5-row8-col1"></td>
+          <td class="input-cell" data-day="5" data-row="8" data-col="2" data-key="day5-row8-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="9" data-col="1" data-key="day5-row9-col1"></td>
+          <td class="input-cell" data-day="5" data-row="9" data-col="2" data-key="day5-row9-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="10" data-col="1" data-key="day5-row10-col1"></td>
+          <td class="input-cell" data-day="5" data-row="10" data-col="2" data-key="day5-row10-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="11" data-col="1" data-key="day5-row11-col1"></td>
+          <td class="input-cell" data-day="5" data-row="11" data-col="2" data-key="day5-row11-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="12" data-col="1" data-key="day5-row12-col1"></td>
+          <td class="input-cell" data-day="5" data-row="12" data-col="2" data-key="day5-row12-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="13" data-col="1" data-key="day5-row13-col1"></td>
+          <td class="input-cell" data-day="5" data-row="13" data-col="2" data-key="day5-row13-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="14" data-col="1" data-key="day5-row14-col1"></td>
+          <td class="input-cell" data-day="5" data-row="14" data-col="2" data-key="day5-row14-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="15" data-col="1" data-key="day5-row15-col1"></td>
+          <td class="input-cell" data-day="5" data-row="15" data-col="2" data-key="day5-row15-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="16" data-col="1" data-key="day5-row16-col1"></td>
+          <td class="input-cell" data-day="5" data-row="16" data-col="2" data-key="day5-row16-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="17" data-col="1" data-key="day5-row17-col1"></td>
+          <td class="input-cell" data-day="5" data-row="17" data-col="2" data-key="day5-row17-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="18" data-col="1" data-key="day5-row18-col1"></td>
+          <td class="input-cell" data-day="5" data-row="18" data-col="2" data-key="day5-row18-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="19" data-col="1" data-key="day5-row19-col1"></td>
+          <td class="input-cell" data-day="5" data-row="19" data-col="2" data-key="day5-row19-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-注册页面-表单验证以及全部模块汇总</td>
+          <td>21:04</td>
+          <td class="input-cell" data-day="5" data-row="20" data-col="1" data-key="day5-row20-col1"></td>
+          <td class="input-cell" data-day="5" data-row="20" data-col="2" data-key="day5-row20-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>00:46:26</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>04:36:36</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day5总时长</td>
+          <td>05:23:02</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Day6 -->
     <h2>Day6</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="study-row">
-        <td>1</td>
-        <td>放大镜实现原理</td>
-        <td>18:36</td>
-        <td class="input-cell" data-day="6" data-row="1" data-col="1" data-key="day6-row1-col1"></td>
-        <td class="input-cell" data-day="6" data-row="1" data-col="2" data-key="day6-row1-col2"></td>
-        <td class="input-cell" data-day="6" data-row="1" data-col="3" data-key="day6-row1-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>2</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="2" data-col="1" data-key="day6-row2-col1"></td>
-        <td class="input-cell" data-day="6" data-row="2" data-col="2" data-key="day6-row2-col2"></td>
-        <td class="input-cell" data-day="6" data-row="2" data-col="3" data-key="day6-row2-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>3</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="3" data-col="1" data-key="day6-row3-col1"></td>
-        <td class="input-cell" data-day="6" data-row="3" data-col="2" data-key="day6-row3-col2"></td>
-        <td class="input-cell" data-day="6" data-row="3" data-col="3" data-key="day6-row3-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>4</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="4" data-col="1" data-key="day6-row4-col1"></td>
-        <td class="input-cell" data-day="6" data-row="4" data-col="2" data-key="day6-row4-col2"></td>
-        <td class="input-cell" data-day="6" data-row="4" data-col="3" data-key="day6-row4-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>5</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="5" data-col="1" data-key="day6-row5-col1"></td>
-        <td class="input-cell" data-day="6" data-row="5" data-col="2" data-key="day6-row5-col2"></td>
-        <td class="input-cell" data-day="6" data-row="5" data-col="3" data-key="day6-row5-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>6</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="6" data-col="1" data-key="day6-row6-col1"></td>
-        <td class="input-cell" data-day="6" data-row="6" data-col="2" data-key="day6-row6-col2"></td>
-        <td class="input-cell" data-day="6" data-row="6" data-col="3" data-key="day6-row6-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>7</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="7" data-col="1" data-key="day6-row7-col1"></td>
-        <td class="input-cell" data-day="6" data-row="7" data-col="2" data-key="day6-row7-col2"></td>
-        <td class="input-cell" data-day="6" data-row="7" data-col="3" data-key="day6-row7-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>8</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="8" data-col="1" data-key="day6-row8-col1"></td>
-        <td class="input-cell" data-day="6" data-row="8" data-col="2" data-key="day6-row8-col2"></td>
-        <td class="input-cell" data-day="6" data-row="8" data-col="3" data-key="day6-row8-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>9</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="9" data-col="1" data-key="day6-row9-col1"></td>
-        <td class="input-cell" data-day="6" data-row="9" data-col="2" data-key="day6-row9-col2"></td>
-        <td class="input-cell" data-day="6" data-row="9" data-col="3" data-key="day6-row9-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>10</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="6" data-row="10" data-col="1" data-key="day6-row10-col1"></td>
-        <td class="input-cell" data-day="6" data-row="10" data-col="2" data-key="day6-row10-col2"></td>
-        <td class="input-cell" data-day="6" data-row="10" data-col="3" data-key="day6-row10-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>00:18:36</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>03:57:50</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day6总时长</td>
-        <td>04:16:26</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="study-row">
+          <td>放大镜实现原理</td>
+          <td>18:36</td>
+          <td class="input-cell" data-day="6" data-row="1" data-col="1" data-key="day6-row1-col1"></td>
+          <td class="input-cell" data-day="6" data-row="1" data-col="2" data-key="day6-row1-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="2" data-col="1" data-key="day6-row2-col1"></td>
+          <td class="input-cell" data-day="6" data-row="2" data-col="2" data-key="day6-row2-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="3" data-col="1" data-key="day6-row3-col1"></td>
+          <td class="input-cell" data-day="6" data-row="3" data-col="2" data-key="day6-row3-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="4" data-col="1" data-key="day6-row4-col1"></td>
+          <td class="input-cell" data-day="6" data-row="4" data-col="2" data-key="day6-row4-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="5" data-col="1" data-key="day6-row5-col1"></td>
+          <td class="input-cell" data-day="6" data-row="5" data-col="2" data-key="day6-row5-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="6" data-col="1" data-key="day6-row6-col1"></td>
+          <td class="input-cell" data-day="6" data-row="6" data-col="2" data-key="day6-row6-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="7" data-col="1" data-key="day6-row7-col1"></td>
+          <td class="input-cell" data-day="6" data-row="7" data-col="2" data-key="day6-row7-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="8" data-col="1" data-key="day6-row8-col1"></td>
+          <td class="input-cell" data-day="6" data-row="8" data-col="2" data-key="day6-row8-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="9" data-col="1" data-key="day6-row9-col1"></td>
+          <td class="input-cell" data-day="6" data-row="9" data-col="2" data-key="day6-row9-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="6" data-row="10" data-col="1" data-key="day6-row10-col1"></td>
+          <td class="input-cell" data-day="6" data-row="10" data-col="2" data-key="day6-row10-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>00:18:36</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>03:57:50</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day6总时长</td>
+          <td>04:16:26</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
 
     <!-- Day7 -->
     <h2>Day7</h2>
-    <table>
-      <tr>
-        <th>序号</th>
-        <th>视频标题</th>
-        <th>时长</th>
-        <th>计划学习时间</th>
-        <th>实际学习时间</th>
-        <th>学习效果</th>
-      </tr>
-      <tr class="study-row">
-        <td>1</td>
-        <td>放大镜实现原理</td>
-        <td>18:36</td>
-        <td class="input-cell" data-day="7" data-row="1" data-col="1" data-key="day7-row1-col1"></td>
-        <td class="input-cell" data-day="7" data-row="1" data-col="2" data-key="day7-row1-col2"></td>
-        <td class="input-cell" data-day="7" data-row="1" data-col="3" data-key="day7-row1-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>2</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="2" data-col="1" data-key="day7-row2-col1"></td>
-        <td class="input-cell" data-day="7" data-row="2" data-col="2" data-key="day7-row2-col2"></td>
-        <td class="input-cell" data-day="7" data-row="2" data-col="3" data-key="day7-row2-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>3</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="3" data-col="1" data-key="day7-row3-col1"></td>
-        <td class="input-cell" data-day="7" data-row="3" data-col="2" data-key="day7-row3-col2"></td>
-        <td class="input-cell" data-day="7" data-row="3" data-col="3" data-key="day7-row3-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>4</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="4" data-col="1" data-key="day7-row4-col1"></td>
-        <td class="input-cell" data-day="7" data-row="4" data-col="2" data-key="day7-row4-col2"></td>
-        <td class="input-cell" data-day="7" data-row="4" data-col="3" data-key="day7-row4-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>5</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="5" data-col="1" data-key="day7-row5-col1"></td>
-        <td class="input-cell" data-day="7" data-row="5" data-col="2" data-key="day7-row5-col2"></td>
-        <td class="input-cell" data-day="7" data-row="5" data-col="3" data-key="day7-row5-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>6</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="6" data-col="1" data-key="day7-row6-col1"></td>
-        <td class="input-cell" data-day="7" data-row="6" data-col="2" data-key="day7-row6-col2"></td>
-        <td class="input-cell" data-day="7" data-row="6" data-col="3" data-key="day7-row6-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>7</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="7" data-col="1" data-key="day7-row7-col1"></td>
-        <td class="input-cell" data-day="7" data-row="7" data-col="2" data-key="day7-row7-col2"></td>
-        <td class="input-cell" data-day="7" data-row="7" data-col="3" data-key="day7-row7-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>8</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="8" data-col="1" data-key="day7-row8-col1"></td>
-        <td class="input-cell" data-day="7" data-row="8" data-col="2" data-key="day7-row8-col2"></td>
-        <td class="input-cell" data-day="7" data-row="8" data-col="3" data-key="day7-row8-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>9</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="9" data-col="1" data-key="day7-row9-col1"></td>
-        <td class="input-cell" data-day="7" data-row="9" data-col="2" data-key="day7-row9-col2"></td>
-        <td class="input-cell" data-day="7" data-row="9" data-col="3" data-key="day7-row9-col3"></td>
-      </tr>
-      <tr class="case-row">
-        <td>10</td>
-        <td>综合案例-放大镜实现-大盒子放大效果制作</td>
-        <td>23:41</td>
-        <td class="input-cell" data-day="7" data-row="10" data-col="1" data-key="day7-row10-col1"></td>
-        <td class="input-cell" data-day="7" data-row="10" data-col="2" data-key="day7-row10-col2"></td>
-        <td class="input-cell" data-day="7" data-row="10" data-col="3" data-key="day7-row10-col3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">学习类视频总时长</td>
-        <td>00:18:36</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">案例类视频总时长</td>
-        <td>03:57:50</td>
-        <td colspan="3"></td>
-      </tr>
-      <tr class="stat-row">
-        <td colspan="2">Day7总时长</td>
-        <td>04:16:26</td>
-        <td colspan="3"></td>
-      </tr>
-    </table>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:left;">课程名</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">时长</th>
+          <th style="padding: 0 10px; white-space:nowrap; text-align:center;">学习时间</th>
+          <th style="padding: 0 10px; width:100%; text-align:left;">备注</th>
+        </tr>
+        <tr class="study-row">
+          <td>放大镜实现原理</td>
+          <td>18:36</td>
+          <td class="input-cell" data-day="7" data-row="1" data-col="1" data-key="day7-row1-col1"></td>
+          <td class="input-cell" data-day="7" data-row="1" data-col="2" data-key="day7-row1-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="2" data-col="1" data-key="day7-row2-col1"></td>
+          <td class="input-cell" data-day="7" data-row="2" data-col="2" data-key="day7-row2-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="3" data-col="1" data-key="day7-row3-col1"></td>
+          <td class="input-cell" data-day="7" data-row="3" data-col="2" data-key="day7-row3-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="4" data-col="1" data-key="day7-row4-col1"></td>
+          <td class="input-cell" data-day="7" data-row="4" data-col="2" data-key="day7-row4-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="5" data-col="1" data-key="day7-row5-col1"></td>
+          <td class="input-cell" data-day="7" data-row="5" data-col="2" data-key="day7-row5-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="6" data-col="1" data-key="day7-row6-col1"></td>
+          <td class="input-cell" data-day="7" data-row="6" data-col="2" data-key="day7-row6-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="7" data-col="1" data-key="day7-row7-col1"></td>
+          <td class="input-cell" data-day="7" data-row="7" data-col="2" data-key="day7-row7-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="8" data-col="1" data-key="day7-row8-col1"></td>
+          <td class="input-cell" data-day="7" data-row="8" data-col="2" data-key="day7-row8-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="9" data-col="1" data-key="day7-row9-col1"></td>
+          <td class="input-cell" data-day="7" data-row="9" data-col="2" data-key="day7-row9-col2"></td>
+        </tr>
+        <tr class="case-row">
+          <td>综合案例-放大镜实现-大盒子放大效果制作</td>
+          <td>23:41</td>
+          <td class="input-cell" data-day="7" data-row="10" data-col="1" data-key="day7-row10-col1"></td>
+          <td class="input-cell" data-day="7" data-row="10" data-col="2" data-key="day7-row10-col2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">学习类视频总时长</td>
+          <td>00:18:36</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">案例类视频总时长</td>
+          <td>03:57:50</td>
+          <td colspan="2"></td>
+        </tr>
+        <tr class="stat-row">
+          <td colspan="1">Day7总时长</td>
+          <td>04:16:26</td>
+          <td colspan="2"></td>
+        </tr>
+      </table>
+    </div>
   </div>
 </body>
 
