@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS代码优化战役(1-10)</title>
+
+  <!-- 添加 LeanCloud SDK -->
+  <script src="https://unpkg.com/leancloud-storage@4.15.0/dist/av-min.js"></script>
+
+  <style>
+    /* --- 全局与布局 --- */
+    :root {
+      --primary-color: #4a90e2;
+      --primary-light: #e8f1fc;
+      --dark-bg: #282c34;
+      --light-text: #abb2bf;
+      --dark-text: #333;
+      --border-color: #ddd;
+      --card-bg: #ffffff;
+      --note-bg: #fffbe6;
+      --green: #98c379;
+      --yellow: #e5c07b;
+      --blue: #61afef;
+      --purple: #c678dd;
+      --comment: #7f848e;
+      --red: #e06c75;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      margin: 0;
+      background-color: #f4f7f9;
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+    }
+
+    header h1 {
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    /* --- Tab导航 --- */
+    .tab-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 25px 0;
+      gap: 10px;
+    }
+
+    .tab-nav a {
+      padding: 10px 18px;
+      text-decoration: none;
+      color: var(--primary-color);
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .tab-nav a:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .tab-nav a.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    /* --- Tab内容区 --- */
+    .tab-content .item {
+      display: none;
+      background-color: var(--card-bg);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content .item.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .item h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+      border-left: 4px solid var(--primary-color);
+      padding-left: 10px;
+    }
+
+    .comparison-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 25px;
+    }
+
+    .code-block {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .code-block h3 {
+      margin: 0;
+      padding: 12px 15px;
+      font-size: 1.1em;
+    }
+
+    .code-block.original h3 {
+      background-color: #ffeae8;
+      color: #c93434;
+    }
+
+    .code-block.optimized h3 {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    pre {
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      padding: 20px;
+      margin: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    /* --- 代码高亮 --- */
+    code .kw {
+      color: var(--purple);
+    }
+
+    /* keyword: const, let, function */
+    code .str {
+      color: var(--green);
+    }
+
+    /* string */
+    code .num {
+      color: var(--yellow);
+    }
+
+    /* number */
+    code .fn {
+      color: var(--blue);
+    }
+
+    /* function name */
+    code .com {
+      color: var(--comment);
+      font-style: italic;
+    }
+
+    /* comment */
+    code .op {
+      color: var(--red);
+    }
+
+    /* operator */
+
+    /* --- 解释与笔记 --- */
+    .explanation,
+    .notes {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .explanation {
+      background-color: var(--primary-light);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .notes {
+      background-color: var(--note-bg);
+      border-left: 4px solid var(--yellow);
+    }
+
+    .explanation h3,
+    .notes h3 {
+      margin-top: 0;
+      color: var(--dark-text);
+    }
+
+    .explanation ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    .explanation li::marker {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+
+    .notes textarea {
+      width: 100%;
+      min-height: 100px;
+      border: 1px solid #e0cda5;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 0.95em;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    .notes a {
+      display: inline-block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    /* --- 响应式布局 --- */
+    @media (max-width: 900px) {
+      .comparison-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      .tab-nav a {
+        padding: 8px 12px;
+        font-size: 0.9em;
+      }
+
+      .item {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <h1>JS 代码优化实战秘籍</h1>
+    </header>
+
+    <nav class="tab-nav">
+      <a href="#" class="active" data-id="0">战役一：Tab切换</a>
+      <a href="#" data-id="1">战役二：轮播图</a>
+      <a href="#" data-id="2">战役三：表单CRUD</a>
+      <a href="#" data-id="3">战役四：动态评论</a>
+      <a href="#" data-id="4">战役五：电梯导航</a>
+      <a href="#" data-id="5">战役六：手风琴</a>
+      <a href="#" data-id="6">战役七：倒计时</a>
+      <a href="#" data-id="7">战役八：模态框</a>
+      <a href="#" data-id="8">战役九：API交互</a>
+      <a href="#" data-id="9">战役十：拖拽功能</a>
+    </nav>
+
+    <main class="tab-content">
+      <!-- 战役一: Tab栏切换 -->
+      <section class="item active">
+        <h2>战役一：Tab栏切换</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (基于for循环和索引)</h3>
+            <pre><code><span class="kw">const</span> tabNavItems <op>=</op> document<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.tab-nav a'</span>);
+<span class="kw">const</span> tabContentItems <op>=</op> document<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.tab-content .item'</span>);
+
+<span class="kw">for</span> (<span class="kw">let</span> i <op>=</op> <span class="num">0</span>; i <op>&lt;</op> tabNavItems<op>.</op>length; i<op>++</op>) {
+  tabNavItems[i]<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mouseenter'</span>, <span class="kw">function</span>() {
+    <span class="com">// 排他思想：先移除所有的active</span>
+    document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.tab-nav .active'</span>)<op>.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+    document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.tab-content .active'</span>)<op>.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+    
+    <span class="com">// 再给自己和对应内容加上active</span>
+    <span class="kw">this</span><op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+    tabContentItems[i]<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+  });
+}</code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (基于事件委托和自定义数据属性)</h3>
+            <pre><code><span class="kw">const</span> tabNav <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.tab-nav'</span>);
+<span class="kw">const</span> tabContentItems <op>=</op> document<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.tab-content .item'</span>);
+
+tabNav<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, e <op>=></op> {
+  <span class="com">// 确保我们点击的是 a 标签</span>
+  <span class="kw">if</span> (e<op>.</op>target<op>.</op>tagName <op>===</op> <span class="str">'A'</span>) {
+    e<op>.</op><span class="fn">preventDefault</span>(); <span class="com">// 阻止链接跳转</span>
+    
+    <span class="com">// 移除旧的 active</span>
+    tabNav<op>.</op><span class="fn">querySelector</span>(<span class="str">'.active'</span>)<op>?.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+    document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.tab-content .item.active'</span>)<op>?.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+
+    <span class="com">// 添加新的 active</span>
+    e<op>.</op>target<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+    <span class="kw">const</span> index <op>=</op> e<op>.</op>target<op>.</op>dataset<op>.</op>id; <span class="com">// 通过自定义数据属性获取索引</span>
+    tabContentItems[index]<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+  }
+});</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>性能 (Performance):</strong>
+              【优化版】使用事件委托，只在父元素<code>.tab-nav</code>上绑定了1个事件监听器，而不是为每个<code>&lt;a&gt;</code>都绑定，极大提升了性能和降低了内存占用。</li>
+            <li><strong>健壮性 (Robustness):</strong>
+              通过自定义数据属性<code>data-id</code>进行关联，代码与HTML元素的顺序解耦。即使未来增删或调换Tab顺序，JS逻辑也无需修改。</li>
+            <li><strong>代码优雅:</strong> 使用了可选链操作符 <code>?.</code>，即使在页面初始化时没有<code>.active</code>的元素，代码也不会报错，更安全。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役二: 轮播图 -->
+      <section class="item">
+        <h2>战役二：轮播图</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (功能驱动，逻辑分散)</h3>
+            <pre><code><span class="kw">let</span> i <op>=</op> <span class="num">0</span>;
+<span class="kw">const</span> img <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.slider img'</span>);
+<span class="kw">const</span> p <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.slider-footer p'</span>);
+<span class="com">// ... 其他DOM获取</span>
+
+<span class="kw">function</span> <span class="fn">change</span>() {
+  img<op>.</op>src <op>=</op> sliderData[i]<op>.</op>url;
+  p<op>.</op>innerHTML <op>=</op> sliderData[i]<op>.</op>title;
+  <span class="com">// ... 其他UI更新</span>
+  document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.slider-footer .active'</span>)<op>.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+  document<op>.</op><span class="fn">querySelector</span>(<span class="str">`.slider-footer li:nth-child(<span class="op">${</span>i <op>+</op> <span class="num">1</span><span class="op">}</span>)`</span>)<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+}
+
+<span class="kw">let</span> timeId <op>=</op> <span class="fn">setInterval</span>(<span class="kw">function</span> () {
+  i <op>=</op> (i <op>+</op> <span class="num">1</span>) <op>%</op> sliderData<op>.</op>length; <span class="com">// 存在括号优先级问题</span>
+  <span class="fn">change</span>();
+}, <span class="num">1000</span>);
+
+<span class="com">// ... 左右按钮和悬停事件里，有大量的重复逻辑 ...</span></code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】(模块化，状态驱动，DRY原则)</h3>
+            <pre><code><span class="kw">let</span> currentIndex <op>=</op> <span class="num">0</span>; <span class="com">// 【单一数据源】</span>
+<span class="kw">let</span> timerId <op>=</op> <span class="kw">null</span>;   <span class="com">// 用于追踪定时器</span>
+<span class="kw">const</span> sliderData <op>=</op> [<span class="com">/* ... */</span>];
+<span class="com">// ... 获取所有需要的DOM元素 ...</span>
+
+<span class="com">// 【核心】将所有UI更新逻辑，封装到唯一的渲染函数中</span>
+<span class="kw">function</span> <span class="fn">render</span>() {
+  img<op>.</op>src <op>=</op> sliderData[currentIndex]<op>.</op>url;
+  p<op>.</op>textContent <op>=</op> sliderData[currentIndex]<op>.</op>title; <span class="com">// 使用 textContent 更安全</span>
+  
+  indicator<op>.</op><span class="fn">querySelector</span>(<span class="str">'.active'</span>)<op>?.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+  indicator<op>.</op><span class="fn">querySelector</span>(<span class="str">`li:nth-child(<span class="op">${</span>currentIndex <op>+</op> <span class="num">1</span><span class="op">}</span>)`</span>)<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+}
+
+<span class="com">// 【核心】将自动播放逻辑也封装成函数</span>
+<span class="kw">function</span> <span class="fn">startAutoPlay</span>() {
+  <span class="fn">clearInterval</span>(timerId); <span class="com">// 防御性清除</span>
+  timerId <op>=</op> <span class="fn">setInterval</span>(() <op>=></op> {
+    <span class="fn">next</span>();
+  }, <span class="num">2000</span>);
+}
+
+<span class="com">// 将状态变更的逻辑也封装</span>
+<span class="kw">function</span> <span class="fn">next</span>() {
+  currentIndex <op>=</op> (currentIndex <op>+</op> <span class="num">1</span>) <op>%</op> sliderData<op>.</op>length;
+  <span class="fn">render</span>();
+}
+<span class="kw">function</span> <span class="fn">prev</span>() {
+  currentIndex <op>=</op> (currentIndex <op>-</op> <span class="num">1</span> <op>+</op> sliderData<op>.</op>length) <op>%</op> sliderData<op>.</op>length;
+  <span class="fn">render</span>();
+}
+
+<span class="com">// 事件监听器只负责"调用"</span>
+nextBtn<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, next);
+prevBtn<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, prev);
+carousel<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mouseenter'</span>, () <op>=></op> <span class="fn">clearInterval</span>(timerId));
+carousel<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mouseleave'</span>, startAutoPlay);
+
+<span class="com">// 初始启动</span>
+<span class="fn">render</span>(); 
+<span class="fn">startAutoPlay</span>();</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>模块化与DRY原则:</strong> 【优化版】将UI更新、状态变更、自动播放这些不同的职责，彻底地封装到了各自独立的函数中 (render, next, prev,
+              startAutoPlay)。代码零重复，极其容易维护和扩展。</li>
+            <li><strong>状态管理:</strong>
+              明确了<code>currentIndex</code>是驱动整个组件的唯一核心状态。所有操作都只修改这个状态，然后调用<code>render()</code>函数。这是现代前端框架的核心思想。</li>
+            <li><strong>数学逻辑:</strong> 使用了<strong>取模运算符%</strong>的优雅写法来处理正向和反向的循环，代码更简洁、健壮。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役三: 表单数据管理 -->
+      <section class="item">
+        <h2>战役三：表单数据管理 (CRUD)</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (基于for循环和innerHTML拼接)</h3>
+            <pre><code><span class="kw">const</span> data <op>=</op> JSON<op>.</op><span class="fn">parse</span>(localStorage<op>.</op><span class="fn">getItem</span>(<span class="str">'students'</span>)) <op>||</op> [];
+<span class="kw">function</span> <span class="fn">render</span>() {
+  <span class="kw">let</span> str <op>=</op> <span class="str">''</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> i <op>=</op> <span class="num">0</span>; i <op>&lt;</op> data<op>.</op>length; i<op>++</op>) {
+    str <op>+=</op> <span class="str">`&lt;tr&gt;...&lt;a href="javascript:;" data-id="<span class="op">${</span>i<span class="op">}</span>"&gt;删除&lt;/a&gt;...&lt;/tr&gt;`</span>;
+  }
+  tbody<op>.</op>innerHTML <op>=</op> str;
+}
+<span class="com">// 新增和删除逻辑中，每次都手动调用 render() 和 localStorage.setItem()</span></code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (基于数组高阶函数和逻辑抽象)</h3>
+            <pre><code><span class="kw">const</span> data <op>=</op> JSON<op>.</op><span class="fn">parse</span>(localStorage<op>.</op><span class="fn">getItem</span>(<span class="str">'students'</span>)) <op>||</op> [];
+<span class="kw">const</span> tbody <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'tbody'</span>);
+
+<span class="com">// 渲染函数：使用map和join，更函数式</span>
+<span class="kw">function</span> <span class="fn">render</span>() {
+  tbody<op>.</op>innerHTML <op>=</op> data<op>.</op><span class="fn">map</span>((item, index) <op>=></op> <span class="str">`
+    &lt;tr&gt;
+      &lt;td&gt;<span class="op">${</span>item<op>.</op>stuId<span class="op">}</span>&lt;/td&gt;
+      &lt;td&gt;<span class="op">${</span>item<op>.</op>name<span class="op">}</span>&lt;/td&gt;
+      &lt;td&gt;&lt;a href="javascript:;" data-index="<span class="op">${</span>index<span class="op">}</span>"&gt;删除&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  `</span>)<op>.</op><span class="fn">join</span>(<span class="str">''</span>);
+}
+
+<span class="com">// 将存储逻辑抽象成一个函数</span>
+<span class="kw">function</span> <span class="fn">saveData</span>() {
+  localStorage<op>.</op><span class="fn">setItem</span>(<span class="str">'students'</span>, JSON<op>.</op><span class="fn">stringify</span>(data));
+}
+
+<span class="com">// 新增逻辑：只关心数据和调用</span>
+<span class="kw">function</span> <span class="fn">addItem</span>(newItem) {
+  data<op>.</op><span class="fn">push</span>(newItem);
+  <span class="fn">saveData</span>();
+  <span class="fn">render</span>();
+}
+
+<span class="com">// 删除逻辑：用事件委托</span>
+tbody<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, e <op>=></op> {
+  <span class="kw">if</span> (e<op>.</op>target<op>.</op>tagName <op>===</op> <span class="str">'A'</span>) {
+    <span class="kw">if</span> (<span class="fn">confirm</span>(<span class="str">'您确定要删除吗？'</span>)) {
+      data<op>.</op><span class="fn">splice</span>(e<op>.</op>target<op>.</op>dataset<op>.</op>index, <span class="num">1</span>);
+      <span class="fn">saveData</span>();
+      <span class="fn">render</span>();
+    }
+  }
+});
+
+<span class="fn">render</span>(); <span class="com">// 初始渲染</span></code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>代码表达力:</strong>
+              【优化版】的render函数，使用了<code>.map().join('')</code>的组合。这比<code>for</code>循环和<code>str += ...</code>的写法，更能清晰地表达<strong>"将一个数据数组，转换为一个HTML字符串"</strong>这个核心意图。
+            </li>
+            <li><strong>代码抽象:</strong>
+              将<code>localStorage.setItem</code>封装到<code>saveData</code>函数中，提高了代码的可维护性。如果未来想更换存储方式，只需修改一处。</li>
+            <li><strong>用户体验:</strong> 增加了<code>confirm</code>弹窗，防止用户误删，这是一个专业的交互设计细节。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役四: 动态评论发布 -->
+      <section class="item">
+        <h2>战役四：动态评论发布</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (innerHTML修改隐藏DOM)</h3>
+            <pre><code><span class="com">// 监听keyup，判断e.key，
+// 使用innerHTML修改一个
+// 预先写好并隐藏的DOM元素，
+// 再将其显示出来。
+// 逻辑较为繁琐，且不够灵活。</span></code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (动态创建DOM)</h3>
+            <pre><code>textarea<op>.</op><span class="fn">addEventListener</span>(<span class="str">'keyup'</span>, e <op>=></op> {
+  <span class="com">// 增加对Shift+Enter(换行)的判断</span>
+  <span class="kw">if</span> (e<op>.</op>key <op>===</op> <span class="str">'Enter'</span> <op>&&</op> <op>!</op>e<op>.</op>shiftKey) { 
+    e<op>.</op><span class="fn">preventDefault</span>(); <span class="com">// 阻止默认的换行行为</span>
+    <span class="kw">const</span> content <op>=</op> textarea<op>.</op>value<op>.</op><span class="fn">trim</span>();
+    
+    <span class="com">// 增加空内容校验</span>
+    <span class="kw">if</span> (<op>!</op>content) <span class="kw">return</span>;
+
+    <span class="kw">const</span> newItem <op>=</op> document<op>.</op><span class="fn">createElement</span>(<span class="str">'div'</span>);
+    newItem<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'item'</span>);
+    
+    <span class="com">// 使用模板字符串构建复杂的DOM结构</span>
+    newItem<op>.</op>innerHTML <op>=</op> <span class="str">`&lt;p&gt;<span class="op">${</span>content<span class="op">}</span>&lt;/p&gt;&lt;p class="time"&gt;<span class="op">${</span><span class="kw">new</span> <span class="fn">Date</span>()<op>.</op><span class="fn">toLocaleString</span>()<span class="op">}</span>&lt;/p&gt;`</span>;
+    
+    <span class="com">// 使用 prepend 加到最前面，符合评论发布逻辑</span>
+    commentList<op>.</op><span class="fn">prepend</span>(newItem);
+    
+    textarea<op>.</op>value <op>=</op> <span class="str">''</span>;
+  }
+});</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>灵活性:</strong>
+              【优化版】使用了<code>document.createElement</code>，是真正意义上的"动态创建"，而不是"修改并显示"，这更灵活，不依赖于HTML中预先存在的隐藏结构。</li>
+            <li><strong>健壮性:</strong> 增加了对Shift+Enter（换行）和空内容提交的健壮性处理，用户体验更好。</li>
+            <li><strong>新特性应用:</strong>
+              使用<code>prepend()</code>方法可以直接将新元素添加到父元素的子元素列表开头，比使用<code>insertBefore</code>更简洁。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役五: 电梯导航 -->
+      <section class="item">
+        <h2>战役五：电梯导航/滚动监听</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (高频触发，性能不佳)</h3>
+            <pre><code>window<op>.</op><span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, <span class="kw">function</span>() {
+  <span class="com">// 在回调中，直接进行大量的DOM查询
+  const s1_top = document.querySelector('#s1').offsetTop;
+  const s2_top = document.querySelector('#s2').offsetTop;
+  // ...
+
+  // 进行大量的if/else if判断
+  if (window.scrollY >= s1_top) {
+    // ... remove all active
+    // ... add active to link 1
+  } else if (window.scrollY >= s2_top) {
+    // ... remove all active
+    // ... add active to link 2
+  }
+  // ...
+});</code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (缓存DOM+节流+数据驱动)</h3>
+            <pre><code><span class="com">// 1. 在外部，缓存所有楼层和导航链接的DOM查询结果</span>
+<span class="kw">const</span> sections <op>=</op> document<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.content-section'</span>);
+<span class="kw">const</span> navLinks <op>=</op> document<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.elevator-nav a'</span>);
+
+<span class="com">// 2. 滚动处理函数 (数据驱动)</span>
+<span class="kw">const</span> <span class="fn">handleScroll</span> <op>=</op> () <op>=></op> {
+  <span class="kw">let</span> currentSectionId <op>=</op> <span class="kw">null</span>;
+  sections<op>.</op><span class="fn">forEach</span>(section <op>=></op> {
+    <span class="com">// -150为缓冲值，提前激活</span>
+    <span class="kw">if</span> (window<op>.</op>scrollY <op>>=</op> section<op>.</op>offsetTop <op>-</op> <span class="num">150</span>) {
+      currentSectionId <op>=</op> section<op>.</op>id;
+    }
+  });
+  
+  <span class="com">// 一次循环，用数据更新所有UI状态</span>
+  navLinks<op>.</op><span class="fn">forEach</span>(link <op>=></op> {
+    link<op>.</op>classList<op>.</op><span class="fn">toggle</span>(<span class="str">'active'</span>, link<op>.</op><span class="fn">getAttribute</span>(<span class="str">'href'</span>) <op>===</op> <span class="str">`#<span class="op">${</span>currentSectionId<span class="op">}</span>`</span>);
+  });
+};
+
+<span class="com">// 3. 使用节流(throttle)来包裹滚动处理，极大提升性能
+// 需要引入lodash.js或自己实现throttle函数</span>
+window<op>.</op><span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, _<op>.</op><span class="fn">throttle</span>(handleScroll, <span class="num">200</span>));</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>性能优化:</strong>
+              通过<strong>缓存DOM查询</strong>（避免在滚动回调中反复查询）和<strong>函数节流(throttle)</strong>，从根本上解决了高频<code>scroll</code>事件带来的性能问题，避免了页面卡顿。
+            </li>
+            <li><strong>数据驱动:</strong> 通过计算出当前激活的区域ID
+              (<code>currentSectionId</code>)，再用这个"数据"去驱动UI变化，替代了冗长的<code>if/else if</code>，代码更易于维护和扩展。</li>
+            <li><strong>代码优雅:</strong> <code>classList.toggle</code>的第二个参数是一个布尔值，可以根据条件动态添加或删除class，非常简洁。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役六: 手风琴 -->
+      <section class="item">
+        <h2>战役六：手风琴/折叠面板</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (for循环+兄弟节点查找)</h3>
+            <pre><code><span class="kw">const</span> headers <op>=</op> document<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.accordion-header'</span>);
+
+headers<op>.</op><span class="fn">forEach</span>(header <op>=></op> {
+  header<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, <span class="kw">function</span>() {
+    <span class="com">// 查找并操作下一个兄弟元素</span>
+    <span class="kw">const</span> content <op>=</op> <span class="kw">this</span><op>.</op>nextElementSibling;
+    
+    <span class="kw">this</span><op>.</op>classList<op>.</op><span class="fn">toggle</span>(<span class="str">'active'</span>);
+
+    <span class="kw">if</span> (<span class="kw">this</span><op>.</op>classList<op>.</op><span class="fn">contains</span>(<span class="str">'active'</span>)) {
+      <span class="com">// 通过设置 max-height 来触发CSS过渡动画</span>
+      content<op>.</op>style<op>.</op>maxHeight <op>=</op> content<op>.</op>scrollHeight <op>+</op> <span class="str">'px'</span>;
+    } <span class="kw">else</span> {
+      content<op>.</op>style<op>.</op>maxHeight <op>=</op> <span class="str">'0px'</span>;
+    }
+  });
+});</code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (事件委托 + 排他逻辑)</h3>
+            <pre><code><span class="kw">const</span> accordionContainer <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.accordion-container'</span>);
+
+accordionContainer<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, e <op>=></op> {
+  <span class="kw">const</span> header <op>=</op> e<op>.</op>target<op>.</op><span class="fn">closest</span>(<span class="str">'.accordion-header'</span>);
+  <span class="com">// 如果点击的不是header，则直接退出</span>
+  <span class="kw">if</span> (<op>!</op>header) <span class="kw">return</span>;
+
+  <span class="kw">const</span> currentContent <op>=</op> header<op>.</op>nextElementSibling;
+  <span class="kw">const</span> currentIsActive <op>=</op> header<op>.</op>classList<op>.</op><span class="fn">contains</span>(<span class="str">'active'</span>);
+  
+  <span class="com">// 【优化】排他逻辑：在打开新的之前，关闭所有已打开的</span>
+  accordionContainer<op>.</op><span class="fn">querySelectorAll</span>(<span class="str">'.accordion-header'</span>)<op>.</op><span class="fn">forEach</span>(h <op>=></op> {
+    h<op>.</op>classList<op>.</op><span class="fn">remove</span>(<span class="str">'active'</span>);
+    h<op>.</op>nextElementSibling<op>.</op>style<op>.</op>maxHeight <op>=</op> <span class="str">'0px'</span>;
+  });
+  
+  <span class="com">// 如果当前点击的不是刚才已激活的，则展开它</span>
+  <span class="kw">if</span> (<op>!</op>currentIsActive) {
+    header<op>.</op>classList<op>.</op><span class="fn">add</span>(<span class="str">'active'</span>);
+    currentContent<op>.</op>style<op>.</op>maxHeight <op>=</op> currentContent<op>.</op>scrollHeight <op>+</op> <span class="str">'px'</span>;
+  }
+});</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>性能与动态适应性:</strong> 【优化版】再次使用了事件委托，只在父容器上绑定一个监听器，性能更优，且能自动适应未来动态添加到手风琴里的新项目。</li>
+            <li><strong>更优的用户体验:</strong> 【优化版】增加了"只允许一个面板展开"的排他逻辑。这在大多数手风琴场景下，是更常见、也更符合用户直觉的设计。</li>
+            <li><strong>代码健壮性:</strong>
+              使用<code>e.target.closest('.accordion-header')</code>，比直接在header上绑定事件更健壮，即使用户点击到了header内部的<code>&lt;span&gt;</code>或<code>&lt;i&gt;</code>图标，也能正确地找到应该操作的header容器。
+            </li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役七: 倒计时 -->
+      <section class="item">
+        <h2>战役七：倒计时/数字时钟</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (逻辑耦合，手动补零)</h3>
+            <pre><code><span class="kw">function</span> <span class="fn">getCountTime</span>() {
+  <span class="kw">const</span> now <op>=</op> <op>+</op><span class="kw">new</span> <span class="fn">Date</span>();
+  <span class="kw">const</span> last <op>=</op> <op>+</op><span class="kw">new</span> <span class="fn">Date</span>(<span class="str">'2025-12-31 23:59:59'</span>);
+  <span class="kw">const</span> count <op>=</op> (last <op>-</op> now) <op>/</op> <span class="num">1000</span>;
+  
+  <span class="kw">let</span> h <op>=</op> <span class="fn">parseInt</span>(count <op>/</op> <span class="num">60</span> <op>/</op> <span class="num">60</span> <op>%</op> <span class="num">24</span>);
+  h <op>=</op> h <op>&lt;</op> <span class="num">10</span> <op>?</op> <span class="str">'0'</span> <op>+</op> h : h; <span class="com">// 手动补零</span>
+  <span class="com">// ... m, s 也是类似的手动补零</span>
+  
+  document<op>.</op><span class="fn">querySelector</span>(<span class="str">'#hour'</span>)<op>.</op>innerHTML <op>=</op> h;
+  <span class="com">// ... 更新 m, s 的innerHTML</span>
+}
+<span class="fn">setInterval</span>(getCountTime, <span class="num">1000</span>);</code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (函数封装与ES6语法糖)</h3>
+            <pre><code><span class="kw">const</span> hourEl <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'#hour'</span>);
+<span class="kw">const</span> minutesEl <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'#minutes'</span>);
+<span class="kw">const</span> secondEl <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'#second'</span>);
+
+<span class="kw">function</span> <span class="fn">updateCountdown</span>(targetDate) {
+  <span class="kw">const</span> now <op>=</op> Date<op>.</op><span class="fn">now</span>();
+  <span class="kw">const</span> target <op>=</op> <span class="kw">new</span> <span class="fn">Date</span>(targetDate)<op>.</op><span class="fn">getTime</span>();
+  <span class="kw">const</span> diffInSeconds <op>=</op> Math<op>.</op><span class="fn">round</span>((target <op>-</op> now) <op>/</op> <span class="num">1000</span>);
+
+  <span class="kw">if</span> (diffInSeconds <op>&lt;</op> <span class="num">0</span>) { <span class="com">// 增加倒计时结束的处理</span>
+    <span class="fn">clearInterval</span>(timer);
+    <span class="kw">return</span>;
+  }
+
+  <span class="kw">const</span> h <op>=</op> Math<op>.</op><span class="fn">floor</span>(diffInSeconds <op>/</op> <span class="num">3600</span>) <op>%</op> <span class="num">24</span>;
+  <span class="kw">const</span> m <op>=</op> Math<op>.</op><span class="fn">floor</span>(diffInSeconds <op>/</op> <span class="num">60</span>) <op>%</op> <span class="num">60</span>;
+  <span class="kw">const</span> s <op>=</op> diffInSeconds <op>%</op> <span class="num">60</span>;
+
+  <span class="com">// 使用 padStart() 优雅地补零</span>
+  hourEl<op>.</op>textContent <op>=</op> String(h)<op>.</op><span class="fn">padStart</span>(<span class="num">2</span>, <span class="str">'0'</span>);
+  minutesEl<op>.</op>textContent <op>=</op> String(m)<op>.</op><span class="fn">padStart</span>(<span class="num">2</span>, <span class="str">'0'</span>);
+  secondEl<op>.</op>textContent <op>=</op> String(s)<op>.</op><span class="fn">padStart</span>(<span class="num">2</span>, <span class="str">'0'</span>);
+}
+
+<span class="kw">const</span> timer <op>=</op> <span class="fn">setInterval</span>(() <op>=></op> {
+  <span class="fn">updateCountdown</span>(<span class="str">'2025-12-31 23:59:59'</span>);
+}, <span class="num">1000</span>);</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>代码优雅:</strong>
+              【优化版】使用了ES6字符串方法<code>.padStart(2, '0')</code>来补零，比手写三元表达式<code>h < 10 ? '0' + h : h</code>更简洁，意图也更清晰。
+            </li>
+            <li><strong>健壮性:</strong> 增加了倒计时结束后的处理 (<code>if (diffInSeconds < 0)</code>),
+              并清除了定时器，避免了在倒计时结束后，页面继续进行无意义的计算。</li>
+            <li><strong>可复用性:</strong>
+              将核心逻辑封装在<code>updateCountdown</code>函数中，并将<code>targetDate</code>作为参数传入，使得这个倒计时函数可以被轻松地复用到任何需要倒计时的地方。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役八: 模态框 -->
+      <section class="item">
+        <h2>战役八：模态框/弹窗</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (基于构造函数)</h3>
+            <pre><code><span class="com">// (可能基于构造函数或面向对象)</span>
+<span class="kw">function</span> <span class="fn">Modal</span>(title <op>=</op> <span class="str">''</span>, content <op>=</op> <span class="str">''</span>) { 
+  <span class="com">// ... 初始化DOM元素和属性 ...</span>
+}
+
+Modal<op>.</op>prototype<op>.</op><span class="fn">open</span> <op>=</op> <span class="kw">function</span>() { 
+  <span class="com">// ... 将DOM插入body，显示弹窗 ...</span>
+};
+
+Modal<op>.</op>prototype<op>.</op><span class="fn">close</span> <op>=</op> <span class="kw">function</span>() { 
+  <span class="com">// ... 从body中移除DOM ...</span>
+};
+
+<span class="com">// 每次使用都需要 new Modal(...).open()</span>
+<span class="com">// 业务逻辑与UI组件耦合较深</span></code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (函数式/模块化，逻辑解耦)</h3>
+            <pre><code><span class="com">// modal.js (一个独立的模块)</span>
+<span class="kw">function</span> <span class="fn">createModal</span>({ title, content, onConfirm, onCancel }) {
+  <span class="com">// 1. JS动态创建所有DOM结构 (modal, overlay, content...)</span>
+  <span class="com">// ...</span>
+
+  <span class="com">// 2. 绑定事件</span>
+  closeBtn<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, close);
+  confirmBtn<op>.</op><span class="fn">addEventListener</span>(<span class="str">'click'</span>, () <op>=></op> {
+    <span class="fn">onConfirm</span><op>?.</op>(); <span class="com">// 如果传入了onConfirm，则调用</span>
+    <span class="fn">close</span>();
+  });
+  
+  <span class="com">// 3. 定义打开和关闭函数</span>
+  <span class="kw">function</span> <span class="fn">open</span>() { document<op>.</op>body<op>.</op><span class="fn">append</span>(modalElement); }
+  <span class="kw">function</span> <span class="fn">close</span>() { modalElement<op>.</op><span class="fn">remove</span>(); }
+  
+  <span class="com">// 4. 返回一个控制对象，提供清晰的API</span>
+  <span class="kw">return</span> { open, close };
+}
+
+<span class="com">// 使用：UI和逻辑分离</span>
+<span class="kw">const</span> myModal <op>=</op> <span class="fn">createModal</span>({ 
+  title: <span class="str">'确认'</span>, 
+  content: <span class="str">'是否删除？'</span>, 
+  onConfirm: () <op>=></op> { console<op>.</op><span class="fn">log</span>(<span class="str">'已删除'</span>) } 
+});
+myModal<op>.</op><span class="fn">open</span>();</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>逻辑解耦:</strong> 【优化版】通过传入回调函数 (<code>onConfirm</code>)
+              的方式，实现了弹窗UI和业务逻辑的解耦。弹窗组件只负责"显示"和"关闭"，而"点击确认后到底要做什么"，则由调用它的外部代码来决定，复用性极高。</li>
+            <li><strong>现代语法:</strong>
+              采用了更现代的函数式写法，避免了<code>prototype</code>和<code>new</code>这种略显笨重的语法。它通过返回一个控制对象<code>{ open, close }</code>，提供了更清晰的API。
+            </li>
+            <li><strong>单一职责：</strong><code>createModal</code>函数只做一件事：创建并返回一个可控的模态框实例。这符合软件设计的单一职责原则。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役九: API交互 -->
+      <section class="item">
+        <h2>战役九：API交互 (天气查询)</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (只处理成功情况)</h3>
+            <pre><code><span class="fn">fetch</span>(<span class="str">'api-url'</span>)
+  <op>.</op><span class="fn">then</span>(response <op>=></op> response<op>.</op><span class="fn">json</span>())
+  <op>.</op><span class="fn">then</span>(data <op>=></op> { 
+    <span class="com">// 直接渲染数据</span>
+    document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.weather'</span>)<op>.</op>textContent <op>=</op> data<op>.</op>temperature;
+  })
+  <op>.</op><span class="fn">catch</span>(err <op>=></op> {
+    <span class="com">// 可能只在控制台打印错误，用户无感知</span>
+    console<op>.</op><span class="fn">error</span>(err);
+  });</code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (完整的异步状态处理)</h3>
+            <pre><code><span class="kw">const</span> weatherContainer <op>=</op> document<op>.</op><span class="fn">querySelector</span>(<span class="str">'.weather-container'</span>);
+
+<span class="kw">async function</span> <span class="fn">fetchWeather</span>(city) {
+  <span class="com">// 1. 开始加载，显示加载状态UI</span>
+  weatherContainer<op>.</op>innerHTML <op>=</op> <span class="str">'&lt;p&gt;正在加载天气...&lt;/p&gt;'</span>;
+  
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response <op>=</op> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`api-url?city=<span class="op">${</span>city<span class="op">}</span>`</span>);
+    <span class="com">// 对HTTP错误进行判断</span>
+    <span class="kw">if</span> (<op>!</op>response<op>.</op>ok) {
+      <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`网络错误: <span class="op">${</span>response<op>.</op>status<span class="op">}</span>`</span>);
+    }
+    <span class="kw">const</span> data <op>=</op> <span class="kw">await</span> response<op>.</op><span class="fn">json</span>();
+    
+    <span class="com">// 2. 成功，渲染成功UI</span>
+    weatherContainer<op>.</op>innerHTML <op>=</op> <span class="str">`&lt;p&gt;<span class="op">${</span>data<op>.</op>city<span class="op">}</span>的温度是: <span class="op">${</span>data<op>.</op>temperature<span class="op">}</span>°C&lt;/p&gt;`</span>;
+  
+  } <span class="kw">catch</span> (error) {
+    <span class="com">// 3. 失败，渲染失败UI给用户明确反馈</span>
+    weatherContainer<op>.</op>innerHTML <op>=</op> <span class="str">`&lt;p class="error"&gt;无法获取天气: <span class="op">${</span>error<op>.</op>message<span class="op">}</span>&lt;/p&gt;`</span>;
+  
+  } <span class="kw">finally</span> {
+    <span class="com">// 4. (可选) 无论成功或失败都会执行，适合关闭loading动画等</span>
+  }
+}</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>完整的状态反馈:</strong>
+              【优化版】完整地处理了异步操作的三个核心状态：<strong>加载中、成功、失败</strong>，并为每种状态提供了明确的UI反馈。这是所有专业级异步交互的必要逻辑，极大地提升了用户体验。</li>
+            <li><strong>代码可读性:</strong>
+              <code>async/await</code>让异步代码的阅读和编写，像同步代码一样清晰直观，避免了<code>.then</code>链式调用带来的"回调地狱"。
+            </li>
+            <li><strong>错误处理:</strong>
+              使用<code>try...catch</code>结构可以捕获包括网络错误（通过<code>response.ok</code>判断后手动抛出）和代码执行错误在内的所有异常，处理逻辑更集中、更健壮。</li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+
+      <!-- 战役十: 拖拽功能 -->
+      <section class="item">
+        <h2>战役十：拖拽功能</h2>
+        <div class="comparison-container">
+          <div class="code-block original">
+            <h3>【你的版本】 (基础实现)</h3>
+            <pre><code>box<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mousedown'</span>, e <op>=></op> {
+  <span class="kw">const</span> offsetX <op>=</op> e<op>.</op>clientX <op>-</op> box<op>.</op>offsetLeft;
+  <span class="kw">const</span> offsetY <op>=</op> e<op>.</op>clientY <op>-</op> box<op>.</op>offsetTop;
+  
+  <span class="kw">const</span> <span class="fn">onMouseMove</span> <op>=</op> (event) <op>=></op> {
+    box<op>.</op>style<op>.</op>left <op>=</op> event<op>.</op>clientX <op>-</op> offsetX <op>+</op> <span class="str">'px'</span>;
+    box<op>.</op>style<op>.</op>top <op>=</op> event<op>.</op>clientY <op>-</op> offsetY <op>+</op> <span class="str">'px'</span>;
+  };
+  
+  document<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mousemove'</span>, onMouseMove);
+  
+  document<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mouseup'</span>, () <op>=></op> {
+    document<op>.</op><span class="fn">removeEventListener</span>(<span class="str">'mousemove'</span>, onMouseMove);
+    <span class="com">// 忘记移除mouseup自身监听器，可能导致内存泄漏</span>
+  });
+});</code></pre>
+          </div>
+          <div class="code-block optimized">
+            <h3>【优化版】 (边界判断+节流+事件清理)</h3>
+            <pre><code>box<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mousedown'</span>, e <op>=></op> {
+  <span class="kw">const</span> offsetX <op>=</op> e<op>.</op>clientX <op>-</op> box<op>.</op>offsetLeft;
+  <span class="kw">const</span> offsetY <op>=</op> e<op>.</op>clientY <op>-</op> box<op>.</op>offsetTop;
+  
+  <span class="com">// 【优化1】使用节流，避免高频触发DOM重绘</span>
+  <span class="kw">const</span> <span class="fn">onMouseMove</span> <op>=</op> _<op>.</op><span class="fn">throttle</span>(event <op>=></op> { 
+    <span class="kw">let</span> newLeft <op>=</op> event<op>.</op>clientX <op>-</op> offsetX;
+    <span class="kw">let</span> newTop <op>=</op> event<op>.</op>clientY <op>-</op> offsetY;
+    
+    <span class="com">// 【优化2】边界判断，防止元素拖出可视区</span>
+    <span class="kw">const</span> maxLeft <op>=</op> window<op>.</op>innerWidth <op>-</op> box<op>.</op>offsetWidth;
+    <span class="kw">const</span> maxTop <op>=</op> window<op>.</op>innerHeight <op>-</op> box<op>.</op>offsetHeight;
+    newLeft <op>=</op> Math<op>.</op><span class="fn">max</span>(<span class="num">0</span>, Math<op>.</op><span class="fn">min</span>(newLeft, maxLeft));
+    newTop <op>=</op> Math<op>.</op><span class="fn">max</span>(<span class="num">0</span>, Math<op>.</op><span class="fn">min</span>(newTop, maxTop));
+    
+    box<op>.</op>style<op>.</op>left <op>=</op> newLeft <op>+</op> <span class="str">'px'</span>;
+    box<op>.</op>style<op>.</op>top <op>=</op> newTop <op>+</op> <span class="str">'px'</span>;
+  }, <span class="num">16</span>); <span class="com">// 16ms约等于60FPS</span>
+
+  <span class="kw">const</span> <span class="fn">onMouseUp</span> <op>=</op> () <op>=></op> {
+    document<op>.</op><span class="fn">removeEventListener</span>(<span class="str">'mousemove'</span>, onMouseMove);
+    <span class="com">// 【优化3】移除自身，防止内存泄漏</span>
+    document<op>.</op><span class="fn">removeEventListener</span>(<span class="str">'mouseup'</span>, onMouseUp);
+  };
+
+  document<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mousemove'</span>, onMouseMove);
+  document<op>.</op><span class="fn">addEventListener</span>(<span class="str">'mouseup'</span>, onMouseUp);
+});</code></pre>
+          </div>
+        </div>
+        <div class="explanation">
+          <h3>【优化原因】</h3>
+          <ul>
+            <li><strong>性能优化:</strong> 通过<strong>函数节流
+                (throttle)</strong>，确保<code>mousemove</code>事件不会过于频繁地触发DOM重绘（改变style），极大提升了拖拽过程的流畅度和性能。</li>
+            <li><strong>用户体验与健壮性:</strong>
+              增加了<strong>边界判断</strong>，使用<code>Math.max</code>和<code>Math.min</code>巧妙地防止用户将元素拖出屏幕可视区域，提升了健壮性和用户体验。</li>
+            <li><strong>内存管理:</strong>
+              在<code>mouseup</code>事件中，不仅移除了<code>mousemove</code>的监听，也移除了<code>mouseup</code>自身的监听器，确保了事件的正确清理，避免了潜在的内存泄漏。
+            </li>
+          </ul>
+        </div>
+        <div class="notes">
+          <h3>【学习笔记】</h3>
+          <textarea placeholder="在这里记录你的学习心得..."></textarea>
+          <a href="https://console.leancloud.cn/apps" target="_blank">同步到 LeanCloud &rarr;</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // LeanCloud 初始化配置
+    // 注意：需要替换为你的实际 App ID 和 App Key
+    AV.init({
+      appId: "F3oiPMEftIou4P0bx2ZiCoPQ-gzGzoHsz", // 替换为你的 LeanCloud App ID
+      appKey: "tL1U8Uk4iMtdCxwHe4cYRPTm", // 替换为你的 LeanCloud App Key
+      serverURL: "https://f3oipmef.lc-cn-n1-shared.com" // 替换为你的服务器地址
+    });
+
+    // 笔记管理类
+    class NotesManager {
+      constructor() {
+        this.notes = {};
+        this.init();
+      }
+
+      // 初始化 - 加载所有笔记
+      async init() {
+        try {
+          await this.loadAllNotes();
+          this.bindEvents();
+        } catch (error) {
+          console.error('初始化笔记管理器失败:', error);
+        }
+      }
+
+      // 绑定事件
+      bindEvents() {
+        // Tab切换功能
+        const tabNav = document.querySelector('.tab-nav');
+        const tabContentItems = document.querySelectorAll('.tab-content .item');
+
+        tabNav.addEventListener('click', (e) => {
+          const clickedTab = e.target.closest('a');
+          if (!clickedTab) return;
+
+          e.preventDefault();
+
+          // 移除旧的 active class
+          tabNav.querySelector('.active')?.classList.remove('active');
+          const activeContent = document.querySelector('.tab-content .item.active');
+          activeContent?.classList.remove('active');
+
+          // 添加新的 active class
+          clickedTab.classList.add('active');
+          const index = clickedTab.dataset.id;
+          if (tabContentItems[index]) {
+            tabContentItems[index].classList.add('active');
+          }
+        });
+
+        // 笔记输入事件
+        document.querySelectorAll('.notes textarea').forEach((textarea, index) => {
+          // 加载已保存的笔记
+          if (this.notes[index]) {
+            textarea.value = this.notes[index];
+          }
+
+          // 监听输入变化，自动保存
+          textarea.addEventListener('input', (e) => {
+            this.saveNote(index, e.target.value);
+          });
+        });
+
+        // 同步按钮事件
+        document.querySelectorAll('.notes a').forEach((link, index) => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.syncToLeanCloud(index);
+          });
+        });
+      }
+
+      // 保存笔记到本地存储
+      saveNote(index, content) {
+        this.notes[index] = content;
+        localStorage.setItem(`js_notes_${index}`, content);
+      }
+
+      // 加载所有笔记
+      async loadAllNotes() {
+        // 先从本地存储加载
+        for (let i = 0; i < 10; i++) {
+          const savedNote = localStorage.getItem(`js_notes_${i}`);
+          if (savedNote) {
+            this.notes[i] = savedNote;
+          }
+        }
+
+        // 尝试从LeanCloud加载
+        try {
+          const query = new AV.Query('Notes');
+          query.equalTo('userId', this.getUserId());
+          const results = await query.find();
+
+          results.forEach(result => {
+            const index = result.get('noteIndex');
+            const content = result.get('content');
+            if (index !== undefined && content) {
+              this.notes[index] = content;
+              // 更新本地存储
+              localStorage.setItem(`js_notes_${index}`, content);
+            }
+          });
+        } catch (error) {
+          console.log('从LeanCloud加载笔记失败，使用本地数据:', error);
+        }
+      }
+
+      // 同步到LeanCloud
+      async syncToLeanCloud(index) {
+        const content = this.notes[index] || '';
+        if (!content.trim()) {
+          alert('请先输入笔记内容再同步！');
+          return;
+        }
+
+        try {
+          // 查找是否已存在该笔记
+          const query = new AV.Query('Notes');
+          query.equalTo('userId', this.getUserId());
+          query.equalTo('noteIndex', index);
+          const existingNotes = await query.find();
+
+          let noteObject;
+          if (existingNotes.length > 0) {
+            // 更新现有笔记
+            noteObject = existingNotes[0];
+          } else {
+            // 创建新笔记
+            noteObject = new AV.Object('Notes');
+          }
+
+          // 设置笔记内容
+          noteObject.set('userId', this.getUserId());
+          noteObject.set('noteIndex', index);
+          noteObject.set('content', content);
+          noteObject.set('title', `JS优化战役${index + 1}笔记`);
+          noteObject.set('updatedAt', new Date());
+
+          await noteObject.save();
+          alert('笔记同步成功！');
+        } catch (error) {
+          console.error('同步失败:', error);
+          alert('同步失败，请检查网络连接或LeanCloud配置！');
+        }
+      }
+
+      // 获取用户ID（简单实现，实际项目中可能需要用户登录）
+      getUserId() {
+        let userId = localStorage.getItem('js_user_id');
+        if (!userId) {
+          userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          localStorage.setItem('js_user_id', userId);
+        }
+        return userId;
+      }
+    }
+
+    // 页面加载完成后初始化笔记管理器
+    document.addEventListener('DOMContentLoaded', () => {
+      new NotesManager();
+    });
+  </script>
+</body>
+
+</html>
